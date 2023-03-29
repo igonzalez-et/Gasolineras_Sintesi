@@ -94,25 +94,25 @@
         // Encriptar la contraseña
         $hashed_password_login = password_hash($passLog, PASSWORD_DEFAULT);
 
-        if($emailLog) {
-            $stmt = $pdo->prepare("SELECT contraseña FROM usuarios WHERE correo = :correo;");
-            $stmt->bindParam(':correo', $emailLog);
-            $stmt->execute();
+        // if($emailLog) {
+        //     $stmt = $pdo->prepare("SELECT contraseña FROM usuarios WHERE correo = :correo;");
+        //     $stmt->bindParam(':correo', $emailLog);
+        //     $stmt->execute();
 
-            if ($stmt->rowCount() > 0) {
-                $row = $stmt->fetch();
-                $hashed_password = $row['contraseña'];
-                if (password_verify($passLog, $hashed_password)) {
-                    $_SESSION["correo"] = $emailLog;
-                    header('Location: ./index.php');
-                } else {
-                    echo "Contraseña incorrecta.";
-                }
-            } else {
-                echo "No existe este usuario.";
-            }
+        //     if ($stmt->rowCount() > 0) {
+        //         $row = $stmt->fetch();
+        //         $hashed_password = $row['contraseña'];
+        //         if (password_verify($passLog, $hashed_password)) {
+        //             $_SESSION["correo"] = $emailLog;
+        //             header('Location: ./index.php');
+        //         } else {
+        //             echo "Contraseña incorrecta.";
+        //         }
+        //     } else {
+        //         echo "No existe este usuario.";
+        //     }
             
-        }
+        // }
 
         
     ?>

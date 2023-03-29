@@ -12,6 +12,7 @@
     <title>Gasolineras</title>
 </head>
 <body>
+
     <div class="header">
         <div class="header-info">
             <?php
