@@ -61,63 +61,6 @@
             </div>
         </div>
     </div>
-
-    <?php
-        // Obtener datos del formulario
-        $nameReg = $_POST['nameReg'];
-        $emailReg = $_POST['emailReg'];
-        $passReg = $_POST['passReg'];
-
-        // Encriptar la contraseña
-        $hashed_password_register = password_hash($passReg, PASSWORD_DEFAULT);
-
-        $query = "SELECT * FROM gasolineras;";
-        $resultado = getListByQuery($query);
-        $resultado = json_encode($resultado);
-        echo "<script>console.log('$resultado')</script>";
-
-        if($emailReg) {
-            // Insertar datos en la tabla "usuarios"
-            if($nameReg) {
-                $stmt = $conn->prepare("INSERT INTO usuarios (nombre, correo, contraseña) VALUES (?, ?, ?)");
-                $stmt->bind_param("sss", $nameReg, $emailReg, $hashed_password_register);
-                $stmt->execute();
-            }
-        }
-
-        
-        
-
-        $emailLog = $_POST['emailLog'];
-        $passLog = $_POST['passLog'];
-
-        // Encriptar la contraseña
-        $hashed_password_login = password_hash($passLog, PASSWORD_DEFAULT);
-
-        // if($emailLog) {
-        //     $stmt = $pdo->prepare("SELECT contraseña FROM usuarios WHERE correo = :correo;");
-        //     $stmt->bindParam(':correo', $emailLog);
-        //     $stmt->execute();
-
-        //     if ($stmt->rowCount() > 0) {
-        //         $row = $stmt->fetch();
-        //         $hashed_password = $row['contraseña'];
-        //         if (password_verify($passLog, $hashed_password)) {
-        //             $_SESSION["correo"] = $emailLog;
-        //             header('Location: ./index.php');
-        //         } else {
-        //             echo "Contraseña incorrecta.";
-        //         }
-        //     } else {
-        //         echo "No existe este usuario.";
-        //     }
-            
-        // }
-
-        
-    ?>
-
-
     <script src="scripts.js"></script>
 </body>
 </html>
