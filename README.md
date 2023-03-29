@@ -1,1 +1,0 @@
-# Gasolineras_Sintesi
