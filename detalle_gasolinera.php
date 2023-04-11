@@ -11,7 +11,7 @@
     <div class="contenedorDetallesGasolinera">
         <?php
             if(!isset($_POST["id"])) {
-                echo "No has seleccionador ninguna gasolinera.";
+                echo "No has seleccionado ninguna gasolinera.";
             }
             // Conexión a la base de datos
             $servername = "localhost";

@@ -1,3 +1,6 @@
+<?php 
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,19 +40,49 @@
                                 <input type="hidden" name="id" value="' . $row["id"] . '">
                                 <button type="submit">Ver detalles</button>
                             </form>
-                            <button>Marcar favorito</button>' .
+                            <form method="post">
+                                <input type="hidden" name="id_gasolinera" value="' . $row["id"] . '">
+                                <input type="submit" name="marcar_favorito" value="Marcar Favorito">
+                            </form>' .
                         "</li>";
                     }
                 } else {
                     echo "No se encontraron resultados.";
                 }
 
+
+                if(isset($_SESSION["correo"])) {
+                    $sql = "SELECT * FROM usuarios";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0) {
+                        while($row = mysqli_fetch_assoc($result)) {
+                            $usuario_id = $row["id"];
+                        }
+                    }else {
+                        echo "No se encontraron resultados.";
+                    }
+                }
+                else {
+                    echo "<script>alert('No has iniciado sesión')</script>";
+                }
+
+                if (isset($_POST['marcar_favorito'])) {
+                    $id_gasolinera = $_POST['id_gasolinera'];
+            
+                    // Realiza la actualización en la base de datos para marcar la gasolinera como favorita
+                    $sql = "INSERT INTO favoritos_gasolinera(usuario_id,gasolinera_id) VALUES(".$usuario_id.",".$id_gasolinera.")";
+                    if (mysqli_query($conn, $sql)) {
+                        echo "La gasolinera se ha marcado como favorita correctamente.";
+                    } else {
+                        echo "Error al marcar la gasolinera como favorita: " . mysqli_error($conn);
+                    }
+                }
+
+
                 // Cierra la conexión a la base de datos
                 mysqli_close($conn);
             ?>
         </ul>
     </div>
-
-    <script src="scripts.js"></script>
 </body>
 </html>
