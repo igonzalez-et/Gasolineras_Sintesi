@@ -36,7 +36,8 @@
                             '<form action="detalle_gasolinera.php" method="post">
                                 <input type="hidden" name="id" value="' . $row["id"] . '">
                                 <button type="submit">Ver detalles</button>
-                            </form>' .
+                            </form>
+                            <button>Marcar favorito</button>' .
                         "</li>";
                     }
                 } else {
@@ -49,6 +50,6 @@
         </ul>
     </div>
 
-    
+    <script src="scripts.js"></script>
 </body>
 </html>
