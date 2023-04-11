@@ -16,11 +16,16 @@
     <div class="header">
         <div class="header-info">
             <?php
-                echo $_SESSION["correo"];
+                echo "<span>".$_SESSION["correo"].", <a href='./login.php'>Cerrar sesión</a> </span>";
             ?>
         </div>
         <div class="nav-menu">
-
+            <ul>
+                <li>Inicio</li>
+                <li>Gasolineras</li>
+                <li>Calcular Gastos</li>
+                <li>Contacto</li>
+            </ul>
         </div>
     </div>
 

@@ -1,7 +1,4 @@
-<?php
-    session_start();
-?>
-
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <?php require('utilidades.php') ?>
 </head>
 <body id="bodyLogin">
+    <?php
+        $servername = "localhost";
+        $username = "igonzalez";
+        $password = "Superlocal123";
+        $dbname = "BGLC";
+
+        $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+        // Verificar conexión
+        if (!$conn) {
+            die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
+        }
+    ?>
 
     <h2 class="h2-login">BG Low Cost</h2>
     <div class="container" id="container">
@@ -61,6 +70,49 @@
             </div>
         </div>
     </div>
+    <?php
+        // Obtener datos del formulario
+        $nameReg = $_POST['nameReg'];
+        $emailReg = $_POST['emailReg'];
+        $passReg = $_POST['passReg'];
+
+        // Encriptar la contraseña
+        $hashed_password_register = password_hash($passReg, PASSWORD_DEFAULT);
+
+        // Insertar datos en la tabla "usuarios"
+        if($nameReg) {
+            $stmt = $conn->prepare("INSERT INTO usuarios (nombre, correo, contraseña) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $nameReg, $emailReg, $hashed_password_register);
+            $stmt->execute();
+        }
+        
+
+        $emailLog = $_POST['emailLog'];
+        $passLog = $_POST['passLog'];
+
+        // Encriptar la contraseña
+        $hashed_password_login = password_hash($passLog, PASSWORD_DEFAULT);
+
+        if($emailLog) {
+            $sqlQuery = "SELECT contraseña FROM usuarios WHERE correo='".$emailLog."';";
+            $result = mysqli_query($conn, $sqlQuery);
+    
+            if (mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_array($result);
+                $hashed_password = $row['contraseña'];
+                if (password_verify($passLog, $hashed_password)) {
+                    $_SESSION["correo"] = $emailLog;
+                    header('Location: ./index.php');
+                } else {
+                    echo "Contraseña incorrecta.";
+                }
+            } else {
+                echo "No existe este usuario.";
+            }
+        }
+
+        $conn->close();
+    ?>
     <script src="scripts.js"></script>
 </body>
 </html>
