@@ -33,8 +33,8 @@
         }
 
         // Crea la tabla
-        $sqlDrop = "DROP TABLE gasolineras";
-        $sqlDrop2 = "DROP TABLE precios_gasolinera";
+        $sqlDrop = "DROP TABLE IF EXISTS gasolineras";
+        $sqlDrop2 = "DROP TABLE IF EXISTS precios_gasolinera";
 
         // if (mysqli_query($conn, $sqlDrop2)) {
         //     echo "La tabla precios_gasolinera ha sido eliminada correctamente";

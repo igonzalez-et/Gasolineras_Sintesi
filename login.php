@@ -72,43 +72,47 @@
     </div>
 
     <?php
-        // Obtener datos del formulario
-        $nameReg = $_POST['nameReg'];
-        $emailReg = $_POST['emailReg'];
-        $passReg = $_POST['passReg'];
+        if(isset($_POST['nameReg'])) {
+            // Obtener datos del formulario
+            $nameReg = $_POST['nameReg'];
+            $emailReg = $_POST['emailReg'];
+            $passReg = $_POST['passReg'];
 
-        // Encriptar la contraseña
-        $hashed_password_register = password_hash($passReg, PASSWORD_DEFAULT);
+            // Encriptar la contraseña
+            $hashed_password_register = password_hash($passReg, PASSWORD_DEFAULT);
 
-        // Insertar datos en la tabla "usuarios"
-        if($nameReg) {
-            $stmt = $conn->prepare("INSERT INTO usuarios (nombre, correo, contraseña) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $nameReg, $emailReg, $hashed_password_register);
-            $stmt->execute();
+            // Insertar datos en la tabla "usuarios"
+            if($nameReg) {
+                $stmt = $conn->prepare("INSERT INTO usuarios (nombre, correo, contraseña) VALUES (?, ?, ?)");
+                $stmt->bind_param("sss", $nameReg, $emailReg, $hashed_password_register);
+                $stmt->execute();
+            }
         }
         
+        
+        if(isset($_POST['emailLog'])) {
+            $emailLog = $_POST['emailLog'];
+            $passLog = $_POST['passLog'];
 
-        $emailLog = $_POST['emailLog'];
-        $passLog = $_POST['passLog'];
+            // Encriptar la contraseña
+            $hashed_password_login = password_hash($passLog, PASSWORD_DEFAULT);
 
-        // Encriptar la contraseña
-        $hashed_password_login = password_hash($passLog, PASSWORD_DEFAULT);
-
-        if($emailLog) {
-            $sqlQuery = "SELECT contraseña FROM usuarios WHERE correo='".$emailLog."';";
-            $result = mysqli_query($conn, $sqlQuery);
-    
-            if (mysqli_num_rows($result) > 0) {
-                $row = mysqli_fetch_array($result);
-                $hashed_password = $row['contraseña'];
-                if (password_verify($passLog, $hashed_password)) {
-                    $_SESSION["correo"] = $emailLog;
-                    header('Location: ./index.php');
+            if($emailLog) {
+                $sqlQuery = "SELECT contraseña FROM usuarios WHERE correo='".$emailLog."';";
+                $result = mysqli_query($conn, $sqlQuery);
+        
+                if (mysqli_num_rows($result) > 0) {
+                    $row = mysqli_fetch_array($result);
+                    $hashed_password = $row['contraseña'];
+                    if (password_verify($passLog, $hashed_password)) {
+                        $_SESSION["correo"] = $emailLog;
+                        header('Location: ./index.php');
+                    } else {
+                        echo "Contraseña incorrecta.";
+                    }
                 } else {
-                    echo "Contraseña incorrecta.";
+                    echo "No existe este usuario.";
                 }
-            } else {
-                echo "No existe este usuario.";
             }
         }
 
