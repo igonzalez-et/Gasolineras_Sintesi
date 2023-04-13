@@ -1,0 +1,46 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>Perfil</title>
+
+</head>
+<body>
+    <?php include("./includes/header.php")?>
+
+    <?php
+        $email = $_SESSION['correo']; 
+        $partes = explode("@", $email);
+        $nombreUsuario = $partes[0];
+
+        $rutaImagenGuardada = "./perfiles/foto/".$nombreUsuario.".jpg";
+    
+        if (!file_exists($rutaImagenGuardada)) {
+            $rutaImagenGuardada = "./perfiles/foto/default.png";
+        }
+    ?>
+
+    <form action="guardar_imagen.php" method="POST" enctype="multipart/form-data">
+        <div class="contenedorFotoPerfil">
+            <img src=<?php echo "'".$rutaImagenGuardada."'"; ?> id="previewFotoPerfil" alt="Foto de perfil actual" class="FotoPerfil">
+            <label for="inpFotoPerfil" class="overlayFotoPerfil">
+                <span>Seleccionar imagen nueva</span>
+            </label>
+            <input type="file" id="inpFotoPerfil" name="foto_perfil" style="display:none;">
+        </div>
+        <input type="submit" value="Guardar" id="btnGuardar" style="display:none;">
+    </form>
+
+
+    <script src="scripts.js"></script>
+</body>
+</html>

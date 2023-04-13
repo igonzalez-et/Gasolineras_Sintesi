@@ -10,9 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="./scripts.js"></script>
 
-    <title>Prueba Index</title>
+    <title>Index</title>
 
 </head>
 <body id="bodyIndex">
@@ -28,7 +27,7 @@
             <li><button class="perfil" id="toggleButton"><i class="fa fa-user"></i> <?php echo "<span>".$_SESSION["correo"]."</span>" ?></button></li>
         </ul>
         <ul id="menu-perfil" class="hidden">
-            <li>Ver perfil</li>
+        <a href='./perfil.php'><li>Ver perfil</li></a>
             <a href='./logout.php'><li>Cerrar sesión</li></a>
         </ul>
     </div>
@@ -87,5 +86,7 @@
             <h2>Contacto</h2>
         </div>
     </div>
+
+    <script src="./scripts.js"></script>
 </body>
 </html>

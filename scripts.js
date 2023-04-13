@@ -23,7 +23,7 @@ $(document).ready(function() {
         var currentPosition = $(this).scrollTop();
         var nextSection = currentSection + 1;
         var prevSection = currentSection - 1;
-      
+        console.log(currentSection);
         // Check if the user has scrolled past the current section
         if (currentPosition > sections.eq(currentSection).offset().top + sections.eq(currentSection).outerHeight() - $(window).height()) {
           if (!$('html, body').is(':animated')) {
@@ -72,4 +72,31 @@ $(document).ready(function() {
             $(this).delay(200 * index).fadeToggle("slow");
         });
     });
+});
+
+
+// Cambiar Foto Perfil
+
+$(document).ready(function() {
+  document.getElementById("inpFotoPerfil").addEventListener("change", function(event) {
+    var input = event.target;
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("previewFotoPerfil").src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+  });
+});
+
+$(document).ready(function() {
+  $('#inpFotoPerfil').on('change', function() {
+    // Mostrar u ocultar el botón de guardar según si se selecciona una imagen nueva
+    if (this.files && this.files[0]) {
+        $('#btnGuardar').show();
+    } else {
+        $('#btnGuardar').hide();
+    }
+  });
 });
