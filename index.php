@@ -15,29 +15,33 @@
 
 </head>
 <body id="bodyIndex">
-    <div class="header-fixed">
-        <div class="logo"></div>
-        <ul class="nav-menu">
-            <li><a href="../">Inicio</a></li>
-            <li><a href="../listado_gasolinera.php">Buscador de gasolineras</a></li>
-            <li><a href="#">Calculadora de precios</a></li>
-            <li><a href="#">Consejos para ahorrar</a></li>
-            <li><a href="#">Preguntas frecuentes</a></li>
-            <li><a href="#">Contacto</a></li>
-            <li><button class="perfil" id="toggleButton"><i class="fa fa-user"></i> <?php echo "<span>".$_SESSION["correo"]."</span>" ?></button></li>
-        </ul>
-        <ul id="menu-perfil" class="hidden">
-        <a href='./perfil.php'><li>Ver perfil</li></a>
-            <a href='./logout.php'><li>Cerrar sesión</li></a>
-        </ul>
-    </div>
-
+    <header>
+        <div class="header-fixed">
+            <div class="logo"></div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="../">Inicio</a></li>
+                    <li><a href="../listado_gasolinera.php">Buscador de gasolineras</a></li>
+                    <li><a href="#">Calculadora de precios</a></li>
+                    <li><a href="#">Consejos para ahorrar</a></li>
+                    <li><a href="#">Preguntas frecuentes</a></li>
+                    <li><a href="#">Contacto</a></li>
+                    <li><button class="perfil" id="toggleButton"><i class="fa fa-user"></i> <?php echo "<span>".$_SESSION["correo"]."</span>" ?></button></li>
+                </ul>
+                <ul id="menu-perfil" class="hidden">
+                    <a href='./perfil.php'><li>Ver perfil</li></a>
+                    <a href='./logout.php'><li>Cerrar sesión</li></a>
+                </ul>
+            </nav>
+        </div>
+    </header>
     <div class="section section1">
         <div class="wave-updown">
             <h2 class="border">BGLC</h2>
             <h2 class="wave">BGLC</h2>
         </div>
     </div>
+    
 
     <div class="section section2">
         <div class="tarjeta tarjeta1 tarjeta-left">

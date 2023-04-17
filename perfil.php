@@ -18,15 +18,37 @@
     <?php include("./includes/header.php")?>
 
     <?php
-        $email = $_SESSION['correo']; 
-        $partes = explode("@", $email);
-        $nombreUsuario = $partes[0];
+        $servername = "localhost";
+        $username = "igonzalez";
+        $password = "Superlocal123";
+        $dbname = "BGLC";
 
-        $rutaImagenGuardada = "./perfiles/foto/".$nombreUsuario.".jpg";
-    
-        if (!file_exists($rutaImagenGuardada)) {
-            $rutaImagenGuardada = "./perfiles/foto/default.png";
+        $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+        // Verificar conexión
+        if (!$conn) {
+            die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
         }
+
+        $sqlQuery = "SELECT foto FROM usuarios WHERE correo='".$_SESSION['correo']."';";
+        $result = mysqli_query($conn, $sqlQuery);
+
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_array($result);
+            $foto = $row['foto'];
+            if(!$foto){
+                $foto = "default.png";
+            }
+            $rutaImagenGuardada = "./perfiles/foto/".$foto;
+            
+        } else {
+            echo "No existe este usuario.";
+        }
+
+    
+        // if (!file_exists($rutaImagenGuardada)) {
+        //     $rutaImagenGuardada = "./perfiles/foto/default.png";
+        // }
     ?>
 
     <form action="guardar_imagen.php" method="POST" enctype="multipart/form-data">
