@@ -45,7 +45,7 @@
                     }
                 }
                 else {
-                    echo "<script>alert('No has iniciado sesión')</script>";
+                    echo "No has iniciado sesión";
                 }
 
                 // Consulta a la base de datos
@@ -60,18 +60,18 @@
                         $result2 = mysqli_query($conn, $sql2);
                         $row2 = mysqli_fetch_assoc($result2);
                         if($row2["contador"] == 0) {
-                            $strFavorito = '<input type="submit" name="marcar_favorito" class="botonMarcar" value="Marcar Favorito">';
+                            $strFavorito = '<input type="submit" name="marcar_favorito" id="botonMarcar'.$row["id"].'" class="botonMarcar" value="Marcar Favorito">';
                         }else {
-                            $strFavorito = '<input type="submit" name="marcar_favorito" class="botonMarcar favorito" value="Marcar Favorito">';
+                            $strFavorito = '<input type="submit" name="marcar_favorito" id="botonMarcar'.$row["id"].'" class="botonMarcar favorito" value="Marcar Favorito">';
                         }
-                        echo "<li>CP: " . $row["CP"] . " - Dirección: " . $row["Dirección"] . " - Provincia: " . $row["Provincia"] . " - Rótulo: " . $row["Rótulo"] . " - Municipio: " . $row["Municipio"] .
-                            '<form action="detalle_gasolinera.php" method="post">
+                        echo 
+                        "<li>CP: " . $row["CP"] . " - Dirección: " . $row["Dirección"] . " - Provincia: " . $row["Provincia"] . " - Rótulo: " . $row["Rótulo"] . " - Municipio: " . $row["Municipio"] .
+                            '<form id="form_' . $row["id"] . '" action="detalle_gasolinera.php" method="post" onsubmit="return submitForm(' . $row["id"] . ');">
                                 <input type="hidden" name="id" value="' . $row["id"] . '">
                                 <button type="submit">Ver detalles</button>
                             </form>
-                            <form method="post">
-                                <input type="hidden" name="id_gasolinera" value="' . $row["id"] . '">'.$strFavorito.'
-                                
+                            <form id="form_favorito_' . $row["id"] . '" method="post" onsubmit="return submitFormFavorito(' . $row["id"] . ');">
+                                <input type="hidden" name="id_gasolinera" value="' . $row["id"] . '">' . $strFavorito . '
                             </form>' .
                         "</li>";
                     }
@@ -79,7 +79,7 @@
                     echo "No se encontraron resultados.";
                 }
 
-                if (isset($_POST['marcar_favorito'])) {
+                function marcarFavorito() {
                     $id_gasolinera = $_POST['id_gasolinera'];
             
                     $sql2 = "SELECT count(*) as contador FROM favoritos_gasolinera where usuario_id = ".$usuario_id." and gasolinera_id = ".$id_gasolinera.";";
@@ -102,10 +102,8 @@
                             echo "<script>console.log('Error al eliminar la gasolinera como favorita: " . mysqli_error($conn). "');</script>";
                         }
                     }
-
-
-                    
                 }
+                
 
 
                 // Cierra la conexión a la base de datos
@@ -113,5 +111,50 @@
             ?>
         </ul>
     </div>
+
+<script>
+    function submitForm(id) {
+        event.preventDefault(); // Prevenir recarga de página
+        var form = document.getElementById('form_' + id);
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', form.action, true);
+        xhr.onload = function () {
+            if (xhr.status === 200 && xhr.responseText) {
+                console.log(xhr.responseText);
+            } else {
+                console.error('Error en la petición');
+            }
+        };
+        xhr.send(formData);
+        return false;
+    }
+
+    function submitFormFavorito(id) {
+        event.preventDefault(); // Prevenir recarga de página
+        var form = document.getElementById('form_favorito_' + id);
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', form.action, true);
+        xhr.onload = function () {
+            if (xhr.status === 200 && xhr.responseText) {
+                // console.log(xhr.responseText);
+                console.log(id);
+                var boton = $("#botonMarcar" + id);
+
+                if (boton.hasClass('favorito')) {
+                boton.removeClass('favorito');
+                } else {
+                boton.addClass('favorito');
+                }
+            } else {
+                console.error('Error en la petición');
+            }
+        };
+        xhr.send(formData);
+        return false;
+    }
+</script>
+
 </body>
 </html>
