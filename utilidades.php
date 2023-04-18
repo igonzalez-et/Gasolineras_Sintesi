@@ -1,16 +1,16 @@
 <?php 
     function conectarBDD(){
-        try {
-            $hostname = "localhost";
-            $dbname = "BGLC";
-            $username = "igonzalez";
-            $pw = "Superlocal123";
-            $pdo = new PDO ("mysql:host=$hostname;dbname=$dbname","$username","$pw");
-            return $pdo;
-        } catch (PDOException $e) {
-            echo "Failed to get DB handle: " . $e->getMessage() . "\n";
-            exit;
+        $servername = "localhost";
+        $username = "BGLC";
+        $password = "BGLCadmin123";
+        $dbname = "BGLC";
+
+        $conn = mysqli_connect($servername, $username, $password, $dbname);
+        // Verificar conexión
+        if (!$conn) {
+            die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
         }
+        return $conn;
     };
     
     function getListByQuery($query){

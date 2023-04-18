@@ -8,24 +8,16 @@
     <title>Detalle gasolinera</title>
 </head>
 <body>
+<?php
+        include("../utilidades.php");
+        $conn = conectarBDD();
+    ?>
     <div class="contenedorDetallesGasolinera">
         <?php
             if(!isset($_POST["id"])) {
                 echo "No has seleccionado ninguna gasolinera.";
             }
-            // Conexión a la base de datos
-            $servername = "localhost";
-            $username = "igonzalez";
-            $password = "Superlocal123";
-            $dbname = "BGLC";
-
-            $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-            // Verifica si se ha establecido la conexión
-            if (!$conn) {
-                die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
-            }
-
+            
             // Consulta a la base de datos
             $sql = "select * from gasolineras g left join precios_gasolinera pg on pg.gasolinera_id = g.id where g.id = ".$_POST["id"];
             $result = mysqli_query($conn, $sql);

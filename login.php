@@ -10,17 +10,8 @@
 </head>
 <body id="bodyLogin">
     <?php
-        $servername = "localhost";
-        $username = "igonzalez";
-        $password = "Superlocal123";
-        $dbname = "BGLC";
-
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-        // Verificar conexión
-        if (!$conn) {
-            die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
-        }
+        include("../utilidades.php");
+        $conn = conectarBDD();
     ?>
 
     <h2 class="h2-login">BG Low Cost</h2>

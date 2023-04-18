@@ -7,7 +7,10 @@
     <title>Base de datos gasolineras</title>
 </head>
 <body>
-
+    <?php
+        include("../utilidades.php");
+        $conn = conectarBDD();
+    ?>
     <?php
         $url = "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/";
         $data = file_get_contents($url);
@@ -17,19 +20,6 @@
         foreach ($json['ListaEESSPrecio'] as $gasolinera) {
             $gasolineraLog = $gasolinera;
             $arrayKeys = array_keys($gasolineraLog);
-        }
-
-        //Conecta con la base de datos
-        $servername = "localhost";
-        $username = "igonzalez";
-        $password = "Superlocal123";
-        $dbname = "BGLC";
-
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-        // Verifica si se ha establecido la conexión
-        if (!$conn) {
-            die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
         }
 
         // Crea la tabla

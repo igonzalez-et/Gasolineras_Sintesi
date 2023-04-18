@@ -17,23 +17,15 @@
     <title>Gasolineras</title>
 </head>
 <body id="bodyGasolineras">
-    <?php include("./includes/header.php")?>
+    <?php 
+        include("./includes/header.php");
+        include("../utilidades.php");
+    ?>
     <h1>Lista de gasolineras</h1>
     <div class="gasolineras">
         <ul class="listagasolineras">
             <?php
-                // Conexión a la base de datos
-                $servername = "localhost";
-                $username = "igonzalez";
-                $password = "Superlocal123";
-                $dbname = "BGLC";
-
-                $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-                // Verifica si se ha establecido la conexión
-                if (!$conn) {
-                    die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
-                }
+                $conn = conectarBDD();
 
                 if(isset($_SESSION["correo"])) {
                     $sql = "SELECT * FROM usuarios where correo = '".$_SESSION["correo"]."';";

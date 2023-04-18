@@ -15,21 +15,13 @@
 
 </head>
 <body id="bodyPerfil">
-    <?php include("./includes/header.php")?>
+    <?php 
+        include("./includes/header.php");
+        include("../utilidades.php");
+    ?>
 
     <?php
-        $servername = "localhost";
-        $username = "igonzalez";
-        $password = "Superlocal123";
-        $dbname = "BGLC";
-
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-        // Verificar conexión
-        if (!$conn) {
-            die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
-        }
-
+        $conn = conectarBDD();
         $sqlQuery = "SELECT foto FROM usuarios WHERE correo='".$_SESSION['correo']."';";
         $result = mysqli_query($conn, $sqlQuery);
 
