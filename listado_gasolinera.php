@@ -19,7 +19,7 @@
 <body id="bodyGasolineras">
     <?php 
         include("./includes/header.php");
-        include("../utilidades.php");
+        include("utilidades.php");
     ?>
     <h1>Lista de gasolineras</h1>
     <div class="gasolineras">

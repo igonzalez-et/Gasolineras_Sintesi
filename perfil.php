@@ -17,7 +17,7 @@
 <body id="bodyPerfil">
     <?php 
         include("./includes/header.php");
-        include("../utilidades.php");
+        include("utilidades.php");
     ?>
 
     <?php

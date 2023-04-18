@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-        include("../utilidades.php");
+        include("utilidades.php");
         $conn = conectarBDD();
     ?>
     <?php

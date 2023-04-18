@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../utilidades.php");
+include("utilidades.php");
 $conn = conectarBDD();
 // Verifica si se ha enviado un archivo
 if(isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["error"] == 0) {

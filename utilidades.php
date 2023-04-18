@@ -1,8 +1,8 @@
 <?php 
     function conectarBDD(){
         $servername = "localhost";
-        $username = "BGLC";
-        $password = "BGLCadmin123";
+        $username = "admin";
+        $password = "admin123";
         $dbname = "BGLC";
 
         $conn = mysqli_connect($servername, $username, $password, $dbname);

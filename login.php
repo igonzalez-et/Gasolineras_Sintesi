@@ -60,6 +60,9 @@
     </div>
 
     <?php
+        include("utilidades.php");
+        $conn = conectarBDD();
+
         if(isset($_POST['nameReg'])) {
             // Obtener datos del formulario
             $nameReg = $_POST['nameReg'];
