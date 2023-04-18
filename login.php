@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body id="bodyLogin">
-    <?php
-        include("../utilidades.php");
-        $conn = conectarBDD();
-    ?>
+
 
     <h2 class="h2-login">BG Low Cost</h2>
     <div class="container" id="container">
