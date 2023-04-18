@@ -14,7 +14,7 @@
     <title>Perfil</title>
 
 </head>
-<body>
+<body id="bodyPerfil">
     <?php include("./includes/header.php")?>
 
     <?php
@@ -50,17 +50,23 @@
         //     $rutaImagenGuardada = "./perfiles/foto/default.png";
         // }
     ?>
-
-    <form action="guardar_imagen.php" method="POST" enctype="multipart/form-data">
-        <div class="contenedorFotoPerfil">
-            <img src=<?php echo "'".$rutaImagenGuardada."'"; ?> id="previewFotoPerfil" alt="Foto de perfil actual" class="FotoPerfil">
-            <label for="inpFotoPerfil" class="overlayFotoPerfil">
-                <span>Seleccionar imagen nueva</span>
-            </label>
-            <input type="file" id="inpFotoPerfil" name="foto_perfil" style="display:none;">
+    <div class="datosPerfil">
+        <div class="imagenPerfil">
+            <form action="guardar_imagen.php" method="POST" enctype="multipart/form-data">
+                <div class="contenedorFotoPerfil">
+                    <img src=<?php echo "'".$rutaImagenGuardada."'"; ?> id="previewFotoPerfil" alt="Foto de perfil actual" class="FotoPerfil">
+                    <label for="inpFotoPerfil" class="overlayFotoPerfil">
+                        <span>Seleccionar imagen nueva</span>
+                    </label>
+                    <input type="file" id="inpFotoPerfil" name="foto_perfil" style="display:none;">
+                </div>
+                <input type="submit" value="Guardar" id="btnGuardar" style="display:none;">
+            </form>
         </div>
-        <input type="submit" value="Guardar" id="btnGuardar" style="display:none;">
-    </form>
+        <div class="descripcionPerfil">
+            
+        </div>
+    </div>
 
 
     <script src="scripts.js"></script>

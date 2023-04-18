@@ -36,7 +36,7 @@
                 }
 
                 if(isset($_SESSION["correo"])) {
-                    $sql = "SELECT * FROM usuarios";
+                    $sql = "SELECT * FROM usuarios where correo = '".$_SESSION["correo"]."';";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
@@ -89,17 +89,17 @@
                         // Realiza la actualización en la base de datos para marcar la gasolinera como favorita
                         $sql = "INSERT INTO favoritos_gasolinera(usuario_id,gasolinera_id) VALUES(".$usuario_id.",".$id_gasolinera.")";
                         if (mysqli_query($conn, $sql)) {
-                            echo "La gasolinera se ha marcado como favorita correctamente.";
+                            echo "<script>console.log('La gasolinera se ha marcado como favorita correctamente.');</script>";
                         } else {
-                            echo "Error al marcar la gasolinera como favorita: " . mysqli_error($conn);
+                            echo "<script>console.log('Error al marcar la gasolinera como favorita: " . mysqli_error($conn). "');</script>";
                         }
                     }else {
                         // Realiza la actualización en la base de datos para marcar la gasolinera como favorita
                         $sql = "delete from favoritos_gasolinera where usuario_id = ".$usuario_id." and gasolinera_id = ".$id_gasolinera.";";
                         if (mysqli_query($conn, $sql)) {
-                            echo "La gasolinera se ha eliminado como favorita correctamente.";
+                            echo "<script>console.log('La gasolinera se ha eliminado como favorita correctamente.');</script>";
                         } else {
-                            echo "Error al eliminar la gasolinera como favorita: " . mysqli_error($conn);
+                            echo "<script>console.log('Error al eliminar la gasolinera como favorita: " . mysqli_error($conn). "');</script>";
                         }
                     }
 

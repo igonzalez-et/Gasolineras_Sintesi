@@ -523,7 +523,7 @@ button.ghost {
 .tarjeta {
     position: relative;
     height: 75%;
-    width: 30%;
+    width: 80%;
     top: 18%;
     padding: 15px;
     font-size: 14px;
@@ -550,7 +550,7 @@ button.ghost {
 }
 
 .tarjeta-right.appear {
-    right: -60%;
+    right: -10%;
     transition: right 1.3s ease-in-out;
 }
 
@@ -622,12 +622,28 @@ button.ghost {
 
 /* Perfil */
 
+.datosPerfil {
+    width: 80vw;
+    height: 40vh;
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+    margin-top: 25px;
+}
+
+.imagenPerfil {
+    width: 30%;
+    height: 100%;
+    background-color: red;
+}
+
 .contenedorFotoPerfil {
     position: relative;
-    width: 150px; /* Ajusta el tamaño de la imagen según tus necesidades */
-    height: 150px;
+    width: 250px;
+    height: 250px;
     overflow: hidden;
-    border-radius: 50%; /* Aplica un borde circular */
+    border-radius: 50%;
+    float: right;
 }
 
 .FotoPerfil{
@@ -655,4 +671,10 @@ button.ghost {
 
 .contenedorFotoPerfil:hover .overlayFotoPerfil {
     opacity: 1;
+}
+
+.descripcionPerfil {
+    width: 70%;
+    height: 100%;
+    background-color: yellow;
 }
