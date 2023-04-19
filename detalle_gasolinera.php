@@ -17,7 +17,7 @@
             if(!isset($_POST["id"])) {
                 echo "No has seleccionado ninguna gasolinera.";
             }
-            
+
             // Consulta a la base de datos
             $sql = "select * from gasolineras g left join precios_gasolinera pg on pg.gasolinera_id = g.id where g.id = ".$_POST["id"];
             $result = mysqli_query($conn, $sql);

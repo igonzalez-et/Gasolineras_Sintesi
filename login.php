@@ -10,6 +10,10 @@
 </head>
 <body id="bodyLogin">
 
+    <?php
+        include("utilidades.php");
+        $conn = conectarBDD();
+    ?>
 
     <h2 class="h2-login">BG Low Cost</h2>
     <div class="container" id="container">
@@ -60,8 +64,6 @@
     </div>
 
     <?php
-        include("utilidades.php");
-        $conn = conectarBDD();
 
         if(isset($_POST['nameReg'])) {
             // Obtener datos del formulario

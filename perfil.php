@@ -19,9 +19,9 @@
         include("./includes/header.php");
         include("utilidades.php");
     ?>
-
     <?php
         $conn = conectarBDD();
+
         $sqlQuery = "SELECT foto FROM usuarios WHERE correo='".$_SESSION['correo']."';";
         $result = mysqli_query($conn, $sqlQuery);
 
