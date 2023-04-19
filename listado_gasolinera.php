@@ -58,7 +58,7 @@
                         }
                         echo 
                         "<li>CP: " . $row["CP"] . " - Dirección: " . $row["Dirección"] . " - Provincia: " . $row["Provincia"] . " - Rótulo: " . $row["Rótulo"] . " - Municipio: " . $row["Municipio"] .
-                            '<form id="form_' . $row["id"] . '" action="detalle_gasolinera.php" method="post" onsubmit="return submitForm(' . $row["id"] . ');">
+                            '<form id="form_' . $row["id"] . '" action="detalle_gasolinera.php" method="post";">
                                 <input type="hidden" name="id" value="' . $row["id"] . '">
                                 <button type="submit">Ver detalles</button>
                             </form>
@@ -138,6 +138,7 @@
     </div>
 
 <script>
+    /*
     function submitForm(id) {
         event.preventDefault(); // Prevenir recarga de página
         var form = document.getElementById('form_' + id);
@@ -153,7 +154,7 @@
         };
         xhr.send(formData);
         return false;
-    }
+    }*/
 
     function submitFormFavorito(id) {
         event.preventDefault(); // Prevenir recarga de página
