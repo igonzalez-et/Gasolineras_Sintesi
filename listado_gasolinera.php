@@ -169,6 +169,7 @@
 
                 if (boton.hasClass('favorito')) {
                     boton.removeClass('favorito');
+                    llamarFuncionPHP(id);
                 } else {
                     boton.addClass('favorito');
                     llamarFuncionPHP(id);
