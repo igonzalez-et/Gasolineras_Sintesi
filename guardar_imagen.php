@@ -16,17 +16,8 @@ if(isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["error"] == 0) {
         // El archivo se ha guardado exitosamente
         echo "La imagen se ha guardado correctamente.";
 
-        $servername = "localhost";
-        $username = "igonzalez";
-        $password = "Superlocal123";
-        $dbname = "BGLC";
-
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-        // Verificar conexión
-        if (!$conn) {
-            die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
-        }
+        include("utilidades.php");
+        $conn = conectarBDD();
 
         $stmt = $conn->prepare("UPDATE usuarios SET foto = ? WHERE correo = ?");
         $stmt->bind_param("ss", $nombreArchivo, $_SESSION["correo"]);

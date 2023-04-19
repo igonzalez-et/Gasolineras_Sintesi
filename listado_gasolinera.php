@@ -23,17 +23,8 @@
         <ul class="listagasolineras">
             <?php
                 // Conexión a la base de datos
-                $servername = "localhost";
-                $username = "igonzalez";
-                $password = "Superlocal123";
-                $dbname = "BGLC";
-
-                $conn = mysqli_connect($servername, $username, $password, $dbname);
-
-                // Verifica si se ha establecido la conexión
-                if (!$conn) {
-                    die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
-                }
+                include("utilidades.php");
+                $conn = conectarBDD();
 
                 if(isset($_SESSION["correo"])) {
                     $sql = "SELECT * FROM usuarios where correo = '".$_SESSION["correo"]."';";
@@ -78,6 +69,39 @@
                 } else {
                     echo "No se encontraron resultados.";
                 }
+
+
+                if (isset($_POST['funcion'])) {
+                    $funcion = $_POST['funcion'];
+                    
+                    if ($funcion == 'marcarFavorito') {
+                        $id_gasolinera = $_POST['id_gasolinera'];
+
+                        $sql2 = "SELECT count(*) as contador FROM favoritos_gasolinera where usuario_id = ".$usuario_id." and gasolinera_id = ".$id_gasolinera.";";
+                        $result2 = mysqli_query($conn, $sql2);
+                        $row2 = mysqli_fetch_assoc($result2);
+                        if($row2["contador"] == 0) {
+                            $sql = "INSERT INTO favoritos_gasolinera(usuario_id,gasolinera_id) VALUES(".$usuario_id.",".$id_gasolinera.")";
+                            if (mysqli_query($conn, $sql)) {
+                                echo "<script>console.log('La gasolinera se ha marcado como favorita correctamente.');</script>";
+                            } else {
+                                echo "<script>console.log('Error al marcar la gasolinera como favorita: " . mysqli_error($conn). "');</script>";
+                            }
+                        }else {
+                            $sql = "delete from favoritos_gasolinera where usuario_id = ".$usuario_id." and gasolinera_id = ".$id_gasolinera.";";
+                            if (mysqli_query($conn, $sql)) {
+                                echo "<script>console.log('La gasolinera se ha eliminado como favorita correctamente.');</script>";
+                            } else {
+                                echo "<script>console.log('Error al eliminar la gasolinera como favorita: " . mysqli_error($conn). "');</script>";
+                            }
+                        }
+
+                    } else {
+                      echo 'Función no encontrada';
+                    }
+                }
+                  
+
 
                 function marcarFavorito() {
                     $id_gasolinera = $_POST['id_gasolinera'];
@@ -143,9 +167,10 @@
                 var boton = $("#botonMarcar" + id);
 
                 if (boton.hasClass('favorito')) {
-                boton.removeClass('favorito');
+                    boton.removeClass('favorito');
                 } else {
-                boton.addClass('favorito');
+                    boton.addClass('favorito');
+                    llamarFuncionPHP(id);
                 }
             } else {
                 console.error('Error en la petición');
@@ -154,6 +179,21 @@
         xhr.send(formData);
         return false;
     }
+
+    function llamarFuncionPHP(id_gasolinera) {
+        $.ajax({
+            url: "listado_gasolinera.php",
+            type: "POST",
+            data: { funcion: "marcarFavorito", id_gasolinera: id_gasolinera },
+            success: function(respuesta) {
+            console.log(respuesta);
+            },
+            error: function() {
+            console.log("Error en la petición");
+            }
+        });
+    }
+
 </script>
 
 </body>
