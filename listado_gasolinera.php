@@ -13,6 +13,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./scripts.js"></script>
+    <script src="./utilities.js"></script>
+
     
     <title>Gasolineras</title>
 </head>
@@ -48,7 +50,16 @@
 
                 // Itera sobre los resultados de la consulta y agrega los datos a la lista HTML
                 if (mysqli_num_rows($result) > 0) {
+                    
                     while($row = mysqli_fetch_assoc($result)) {
+                        $direccion = $row['Dirección'];
+                        $latitud = $row['Latitud'];
+                        $latitud = str_replace(',', '.', $latitud);
+                        $localidad = $row['Localidad'];
+                        $longitud = $row['Longitud__WGS84'];
+                        $longitud = str_replace(',', '.', $longitud);
+                        $provincia = $row['Provincia'];
+
                         $sql2 = "SELECT count(*) as contador FROM favoritos_gasolinera where usuario_id = ".$usuario_id." and gasolinera_id = ".$row["id"].";";
                         $strFavorito = "";
                         $result2 = mysqli_query($conn, $sql2);
@@ -67,6 +78,7 @@
                             <form id="form_favorito_' . $row["id"] . '" method="post" onsubmit="return submitFormFavorito(' . $row["id"] . ');">
                                 <input type="hidden" name="id_gasolinera" value="' . $row["id"] . '">' . $strFavorito . '
                             </form>' .
+                            '<a href="https://www.google.com/maps?q='.urlencode($direccion . ', ' . $localidad . ', ' . $provincia).'&ll='.$latitud . ',' . $longitud.'&z=17" target="_blank">Ver ubicación</a>'.
                         "</li>";
                     }
                 } else {
@@ -109,71 +121,6 @@
             ?>
         </ul>
     </div>
-
-<script>
-
-    function submitFormFavorito(id) {
-        event.preventDefault();
-        var form = document.getElementById('form_favorito_' + id);
-        var formData = new FormData(form);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', form.action, true);
-        xhr.onload = function () {
-            if (xhr.status === 200 && xhr.responseText) {
-                // console.log(xhr.responseText);
-                console.log(id);
-                var boton = $("#botonMarcar" + id);
-
-                if (boton.hasClass('favorito')) {
-                    boton.removeClass('favorito');
-                    llamarFuncionPHP(id);
-                } else {
-                    boton.addClass('favorito');
-                    llamarFuncionPHP(id);
-                }
-            } else {
-                console.error('Error en la petición');
-            }
-        };
-        xhr.send(formData);
-        return false;
-    }
-
-    function llamarFuncionPHP(id_gasolinera) {
-        $.ajax({
-            url: "listado_gasolinera.php",
-            type: "POST",
-            data: { funcion: "marcarFavorito", id_gasolinera: id_gasolinera },
-            success: function(respuesta) {
-            console.log("Se ha añadido a favoritos correctamente");
-            },
-            error: function() {
-            console.log("Error en la petición");
-            }
-        });
-    }
-
-    //RECOGER COORDENADAS
-    // $(document).ready(function() {
-    //     if (navigator.geolocation) {
-    //         navigator.geolocation.getCurrentPosition(function(position) {
-    //             $.ajax({
-    //                 url: "listado_gasolinera.php",
-    //                 type: "POST",
-    //                 data: {
-    //                     funcion2: "recogerCoordenadas",
-    //                     latitud: position.coords.latitu
-    //                     // console.log("Se han recogido las coordenadas correctamente");
-    //                     console.log(response);
-    //                 }
-    //             });
-    //         });
-    //     } else {
-    //         alert('Tu navegador no soporta geolocalización.');
-    //     }
-    // });
-
-</script>
 
 </body>
 </html>

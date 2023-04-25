@@ -603,6 +603,12 @@ button.ghost {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: stretch;
+
 }
 .listagasolineras li {
 	margin: 5px 0;
@@ -610,10 +616,15 @@ button.ghost {
 	background-color: #0B3D91;
 	color: white;
 	border-radius: 5px;
+    flex-basis: 45%;
+    padding: 10px;
+    box-sizing: border-box;
+    height: 250px;
 }
 .listagasolineras li:nth-child(even) {
 	background-color: #add8e6;
 	color: #0B3D91;
+    margin-left: 5px;
 }
 
 .favorito {
