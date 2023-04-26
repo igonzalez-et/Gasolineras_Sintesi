@@ -19,13 +19,13 @@ if(isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["error"] == 0) {
         echo "La imagen se ha guardado correctamente.";
 
 
-        header("Location: perfil.php");
+
         $stmt = $conn->prepare("UPDATE usuarios SET foto = ? WHERE correo = ?");
         $stmt->bind_param("ss", $nombreArchivo, $_SESSION["correo"]);
         $stmt->execute();
 
         $conn->close();
-
+        header("Location: perfil.php");
     } else {
         // Hubo un error al guardar el archivo
         echo "Ha ocurrido un error al guardar la imagen.";
