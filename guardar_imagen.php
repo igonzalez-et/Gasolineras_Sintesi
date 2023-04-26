@@ -4,6 +4,7 @@ include("utilidades.php");
 $conn = conectarBDD();
 // Verifica si se ha enviado un archivo
 if(isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["error"] == 0) {
+    
     // Define el directorio donde se guardarán las imágenes
     $directorio = "perfiles/foto/"; // Reemplaza con la ruta real a tu directorio de guardado
 
@@ -18,6 +19,7 @@ if(isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["error"] == 0) {
         echo "La imagen se ha guardado correctamente.";
 
 
+        header("Location: perfil.php");
         $stmt = $conn->prepare("UPDATE usuarios SET foto = ? WHERE correo = ?");
         $stmt->bind_param("ss", $nombreArchivo, $_SESSION["correo"]);
         $stmt->execute();
@@ -33,5 +35,4 @@ if(isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["error"] == 0) {
     echo "No se ha seleccionado ninguna imagen.";
 }
 
-header("Location: perfil.php");
 ?>

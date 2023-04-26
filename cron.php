@@ -23,12 +23,10 @@
             $gasolineraLog = $gasolinera;
             $arrayKeys = array_keys($gasolineraLog);
         }
-       foreach ($json['ListaEESSPrecio'] as $gasolinera) {
-            $stringTotal = "";
+        foreach ($json['ListaEESSPrecio'] as $gasolinera) {
             $stringTotalPrecio = "";
             foreach ($gasolinera as $key => $datos) {
                 $subs = substr($key,0,6);
-
                 if($subs == "Precio"){
                     if($datos != ""){
                         $stringTotalPrecio .= "'" . mysqli_real_escape_string($conn, $datos) . "',";
@@ -37,15 +35,8 @@
                         $stringTotalPrecio .= "NULL,";
                     }
                 }
-                else{
-                    $stringTotal .= "'" . mysqli_real_escape_string($conn, $datos) . "',";
-                }
-
             }
-            $stringTotal = substr($stringTotal, 0, -1);
             $stringTotalPrecio = substr($stringTotalPrecio, 0, -1);
-
-            $stringColumns = "";
             $stringColumnsPrecio = "";
             foreach ($arrayKeys as $key) {
                 $key = str_replace(' ', '_', $key);
@@ -53,48 +44,26 @@
                 $key = str_replace('.', '', $key);
                 $key = str_replace('(', '_', $key);
                 $key = str_replace(')', '', $key);
-
                 $subs = substr($key,0,6);
-
                 if ($subs === "Precio") { 
                     $stringColumnsPrecio .= $key . ",";
-                } else {
-                    $stringColumns .= $key . ",";
                 }
             }
-            $stringColumns = substr($stringColumns, 0, -1);
             $stringColumnsPrecio = substr($stringColumnsPrecio, 0, -1);
-        
-            // Insertamos los datos dentro de la tabla gasolineras
-            
-            
-            // if (mysqli_query($conn, $sqlQuery)) {
-            //     echo "Los datos se han insertado correctamente";
-            // } else {
-            //     echo "Error: " . $sqlQuery . "<br>" . mysqli_error($conn);
-            // }
-
-            // Insertamos los datos dentro de la tabla gasolineras
-
             // Consulta a la base de datos
             $sqlQuery = "SELECT * FROM gasolineras";
             $result = mysqli_query($conn, $sqlQuery);
-
-            // Itera sobre los resultados de la consulta y agrega los datos a la lista HTML
             if (mysqli_num_rows($result) > 0) {
-                while($row = mysqli_fetch_assoc($result)) {
+                while ($row = mysqli_fetch_assoc($result)) {
                     $sqlQuery2 = "INSERT INTO precios_gasolinera(".$stringColumnsPrecio.",gasolinera_id,ultima_actualizacion) VALUES(".$stringTotalPrecio.",".$row['id'].",current_timestamp());";
+
                 }
                 if (mysqli_query($conn, $sqlQuery2)) {
- 
-                } else {
-                     echo "Error: " . $sqlQuery2 . "<br>" . mysqli_error($conn);
+                    echo $sqlQuery2;
                 }
-            } else {
-                // echo "No se encontraron resultados.";
-            }            
+                
+            }
         }
-
-        // Cierra la conexión
-        mysqli_close($conn);
-    ?>
+            // Cierra la conexión
+            mysqli_close($conn);
+        ?>

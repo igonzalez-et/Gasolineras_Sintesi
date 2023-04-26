@@ -10,6 +10,8 @@
     <?php
         include("utilidades.php");
         $conn = conectarBDD();
+        set_time_limit(300);
+
     ?>
     <?php
         $url = "https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/";
@@ -26,16 +28,16 @@
         $sqlDrop = "DROP TABLE IF EXISTS gasolineras";
         $sqlDrop2 = "DROP TABLE IF EXISTS precios_gasolinera";
 
-        // if (mysqli_query($conn, $sqlDrop2)) {
-        //     echo "La tabla precios_gasolinera ha sido eliminada correctamente";
-        // } else {
-        //     echo "Error al crear la tabla: " . mysqli_error($conn);
-        // }
-        // if (mysqli_query($conn, $sqlDrop)) {
-        //     echo "La tabla gasolineras ha sido eliminada correctamente";
-        // } else {
-        //     echo "Error al crear la tabla: " . mysqli_error($conn);
-        // }
+        if (mysqli_query($conn, $sqlDrop2)) {
+            echo "La tabla precios_gasolinera ha sido eliminada correctamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
+        if (mysqli_query($conn, $sqlDrop)) {
+            echo "La tabla gasolineras ha sido eliminada correctamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
         
 
         
@@ -62,18 +64,18 @@
             $sqlPrecio .= "gasolinera_id INT(100) , ultima_actualizacion DATETIME, FOREIGN KEY (gasolinera_id) REFERENCES gasolineras(id))";
         }
 
-        // if (mysqli_query($conn, $sql)) {
-        //     echo "La tabla gasolineras ha sido creada exitosamente";
-        // } else {
-        //     echo "Error al crear la tabla: " . mysqli_error($conn);
-        // }
-        // echo $sql;
-        // echo $sqlPrecio;
-        // if (mysqli_query($conn, $sqlPrecio)) {
-        //     echo "La tabla precios_gasolinera ha sido creada exitosamente";
-        // } else {
-        //     echo "Error al crear la tabla: " . mysqli_error($conn);
-        // }
+        if (mysqli_query($conn, $sql)) {
+            echo "La tabla gasolineras ha sido creada exitosamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
+        echo $sql;
+        echo $sqlPrecio;
+        if (mysqli_query($conn, $sqlPrecio)) {
+            echo "La tabla precios_gasolinera ha sido creada exitosamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
 
         // Recorremos los datos de la API
         foreach ($json['ListaEESSPrecio'] as $gasolinera) {
@@ -121,11 +123,11 @@
             // Insertamos los datos dentro de la tabla gasolineras
             $sqlQuery = "INSERT INTO gasolineras(".$stringColumns.") VALUES(".$stringTotal.");";
             
-            // if (mysqli_query($conn, $sqlQuery)) {
-            //     echo "Los datos se han insertado correctamente";
-            // } else {
-            //     echo "Error: " . $sqlQuery . "<br>" . mysqli_error($conn);
-            // }
+             if (mysqli_query($conn, $sqlQuery)) {
+                 echo "Los datos se han insertado correctamente";
+             } else {
+                echo "Error: " . $sqlQuery . "<br>" . mysqli_error($conn);
+             }
 
             // Insertamos los datos dentro de la tabla gasolineras
 
@@ -138,13 +140,13 @@
                 while($row = mysqli_fetch_assoc($result)) {
                     $sqlQuery2 = "INSERT INTO precios_gasolinera(".$stringColumnsPrecio.",gasolinera_id,ultima_actualizacion) VALUES(".$stringTotalPrecio.",".$row['id'].",current_timestamp());";
                 }
-                // if (mysqli_query($conn, $sqlQuery2)) {
-                //     echo "Los datos se han insertado correctamente";
-                // } else {
-                //     echo "Error: " . $sqlQuery2 . "<br>" . mysqli_error($conn);
-                // }
+                if (mysqli_query($conn, $sqlQuery2)) {
+                    echo $sqlQuery2;
+                } else {
+                    echo "Error: " . $sqlQuery2 . "<br>" . mysqli_error($conn);
+                }
             } else {
-                // echo "No se encontraron resultados.";
+                echo "No se encontraron resultados.";
             }            
         }
 
