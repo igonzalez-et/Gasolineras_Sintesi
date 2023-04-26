@@ -1,4 +1,18 @@
 <?php 
+    function conectarBDD(){
+        $servername = "localhost";
+        $username = "admin";
+        $password = "admin123";
+        $dbname = "BGLC";
+
+        $conn = mysqli_connect($servername, $username, $password, $dbname);
+        // Verificar conexión
+        if (!$conn) {
+            die("La conexión a la base de datos ha fallado: " . mysqli_connect_error());
+        }
+        return $conn;
+    };
+    
     function getListByQuery($query){
         $arrayQuestions = [];
         $pdo = conectarBDD();
