@@ -23,8 +23,9 @@
         include("./includes/header.php");
         include("utilidades.php");
     ?>
-    <h1>Lista de gasolineras</h1>
+    
     <div class="gasolineras">
+        <h1>Lista de gasolineras</h1>
         <ul class="listagasolineras">
             <?php
                 $conn = conectarBDD();
