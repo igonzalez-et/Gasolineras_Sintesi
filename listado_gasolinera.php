@@ -13,6 +13,8 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./scripts.js"></script>
+    <script src="./utilities.js"></script>
+
     
     <title>Gasolineras</title>
 </head>
@@ -40,13 +42,24 @@
                     echo "No has iniciado sesión";
                 }
 
+                
+
                 // Consulta a la base de datos
                 $sql = "SELECT * FROM gasolineras";
                 $result = mysqli_query($conn, $sql);
 
                 // Itera sobre los resultados de la consulta y agrega los datos a la lista HTML
                 if (mysqli_num_rows($result) > 0) {
+                    
                     while($row = mysqli_fetch_assoc($result)) {
+                        $direccion = $row['Dirección'];
+                        $latitud = $row['Latitud'];
+                        $latitud = str_replace(',', '.', $latitud);
+                        $localidad = $row['Localidad'];
+                        $longitud = $row['Longitud__WGS84'];
+                        $longitud = str_replace(',', '.', $longitud);
+                        $provincia = $row['Provincia'];
+
                         $sql2 = "SELECT count(*) as contador FROM favoritos_gasolinera where usuario_id = ".$usuario_id." and gasolinera_id = ".$row["id"].";";
                         $strFavorito = "";
                         $result2 = mysqli_query($conn, $sql2);
@@ -58,13 +71,14 @@
                         }
                         echo 
                         "<li>CP: " . $row["CP"] . " - Dirección: " . $row["Dirección"] . " - Provincia: " . $row["Provincia"] . " - Rótulo: " . $row["Rótulo"] . " - Municipio: " . $row["Municipio"] .
-                            '<form id="form_' . $row["id"] . '" action="detalle_gasolinera.php" method="post";">
+                            '<form id="form_' . $row["id"] . '" action="detalle_gasolinera.php" method="post">
                                 <input type="hidden" name="id" value="' . $row["id"] . '">
                                 <button type="submit">Ver detalles</button>
                             </form>
                             <form id="form_favorito_' . $row["id"] . '" method="post" onsubmit="return submitFormFavorito(' . $row["id"] . ');">
                                 <input type="hidden" name="id_gasolinera" value="' . $row["id"] . '">' . $strFavorito . '
                             </form>' .
+                            '<a href="https://www.google.com/maps?q='.urlencode($direccion . ', ' . $localidad . ', ' . $provincia).'&ll='.$latitud . ',' . $longitud.'&z=17" target="_blank">Ver ubicación</a>'.
                         "</li>";
                     }
                 } else {
@@ -97,107 +111,16 @@
                             }
                         }
 
-                    } else {
+                    }else {
                       echo 'Función no encontrada';
                     }
                 }
-                  
-
-
-                function marcarFavorito() {
-                    $id_gasolinera = $_POST['id_gasolinera'];
-            
-                    $sql2 = "SELECT count(*) as contador FROM favoritos_gasolinera where usuario_id = ".$usuario_id." and gasolinera_id = ".$id_gasolinera.";";
-                    $result2 = mysqli_query($conn, $sql2);
-                    $row2 = mysqli_fetch_assoc($result2);
-                    if($row2["contador"] == 0) {
-                        // Realiza la actualización en la base de datos para marcar la gasolinera como favorita
-                        $sql = "INSERT INTO favoritos_gasolinera(usuario_id,gasolinera_id) VALUES(".$usuario_id.",".$id_gasolinera.")";
-                        if (mysqli_query($conn, $sql)) {
-                            echo "<script>console.log('La gasolinera se ha marcado como favorita correctamente.');</script>";
-                        } else {
-                            echo "<script>console.log('Error al marcar la gasolinera como favorita: " . mysqli_error($conn). "');</script>";
-                        }
-                    }else {
-                        // Realiza la actualización en la base de datos para marcar la gasolinera como favorita
-                        $sql = "delete from favoritos_gasolinera where usuario_id = ".$usuario_id." and gasolinera_id = ".$id_gasolinera.";";
-                        if (mysqli_query($conn, $sql)) {
-                            echo "<script>console.log('La gasolinera se ha eliminado como favorita correctamente.');</script>";
-                        } else {
-                            echo "<script>console.log('Error al eliminar la gasolinera como favorita: " . mysqli_error($conn). "');</script>";
-                        }
-                    }
-                }
-                
-
 
                 // Cierra la conexión a la base de datos
                 mysqli_close($conn);
             ?>
         </ul>
     </div>
-
-<script>
-    /*
-    function submitForm(id) {
-        event.preventDefault(); // Prevenir recarga de página
-        var form = document.getElementById('form_' + id);
-        var formData = new FormData(form);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', form.action, true);
-        xhr.onload = function () {
-            if (xhr.status === 200 && xhr.responseText) {
-                console.log(xhr.responseText);
-            } else {
-                console.error('Error en la petición');
-            }
-        };
-        xhr.send(formData);
-        return false;
-    }*/
-
-    function submitFormFavorito(id) {
-        event.preventDefault(); // Prevenir recarga de página
-        var form = document.getElementById('form_favorito_' + id);
-        var formData = new FormData(form);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', form.action, true);
-        xhr.onload = function () {
-            if (xhr.status === 200 && xhr.responseText) {
-                // console.log(xhr.responseText);
-                console.log(id);
-                var boton = $("#botonMarcar" + id);
-
-                if (boton.hasClass('favorito')) {
-                    boton.removeClass('favorito');
-                    llamarFuncionPHP(id);
-                } else {
-                    boton.addClass('favorito');
-                    llamarFuncionPHP(id);
-                }
-            } else {
-                console.error('Error en la petición');
-            }
-        };
-        xhr.send(formData);
-        return false;
-    }
-
-    function llamarFuncionPHP(id_gasolinera) {
-        $.ajax({
-            url: "listado_gasolinera.php",
-            type: "POST",
-            data: { funcion: "marcarFavorito", id_gasolinera: id_gasolinera },
-            success: function(respuesta) {
-            console.log(respuesta);
-            },
-            error: function() {
-            console.log("Error en la petición");
-            }
-        });
-    }
-
-</script>
 
 </body>
 </html>
