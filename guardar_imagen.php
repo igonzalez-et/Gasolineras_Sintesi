@@ -6,7 +6,7 @@ $conn = conectarBDD();
 if(isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["error"] == 0) {
     
     // Define el directorio donde se guardarán las imágenes
-    $directorio = "/perfiles/foto/"; // Reemplaza con la ruta real a tu directorio de guardado
+    $directorio = "perfiles/foto/"; // Reemplaza con la ruta real a tu directorio de guardado
 
     // Obtiene el nombre y la extensión del archivo enviado
     $nombreArchivo = $_FILES["foto_perfil"]["name"];
