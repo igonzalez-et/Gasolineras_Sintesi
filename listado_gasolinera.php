@@ -26,6 +26,62 @@
     
     <div class="gasolineras">
         <h1>Lista de gasolineras</h1>
+
+        <div class="filtros">
+            <form method="POST">
+                <label for="Rótulo">Rótulo:</label>
+                <select name="Rótulo">
+                    <option value="Cualquiera">Cualquiera</option>
+                    <?php
+                        $conn = conectarBDD();
+                        $sql = "select Rótulo from gasolineras group by Rótulo;";
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0) {
+                            while($row = mysqli_fetch_assoc($result)) {
+                                echo "<option value=\"$row[Rótulo]\">$row[Rótulo]</option>\n";
+                            }
+                        }
+                    ?>
+                </select>
+                <label for="Provincia">Provincia:</label>
+                <select name="Provincia">
+                    <option value="Cualquiera">Cualquiera</option>
+                    <?php
+                        $conn = conectarBDD();
+                        $sql = "select Provincia from gasolineras group by Provincia;";
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0) {
+                            while($row = mysqli_fetch_assoc($result)) {
+                                echo "<option value=\"$row[Provincia]\">$row[Provincia]</option>\n";
+                            }
+                        }
+                    ?>
+                </select>
+                <label for="Gasolina">Tipo de Gasolina:</label>
+                <select name="Gasolina">
+                    <option value="Cualquiera">Cualquiera</option>
+                    <?php
+                        $conn = conectarBDD();
+                        $sql = "SELECT COUNT(*) - 2 as contador FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'precios_gasolinera'";
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0) {
+                            while($row = mysqli_fetch_assoc($result)) {
+                                $columnas = $row["contador"];
+                            }
+                        }
+                        $sql = "select column_name as columnas FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'precios_gasolinera' limit ".$columnas.";";
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0) {
+                            while($row = mysqli_fetch_assoc($result)) {
+                                echo "<option value=\"$row[columnas]\">$row[columnas]</option>\n";
+                            }
+                        }
+                    ?>
+                </select>
+                <input type="submit" value="Filtrar">
+            </form>
+        </div>
+        
         <ul class="listagasolineras">
             <?php
                 $conn = conectarBDD();
@@ -43,13 +99,30 @@
                     echo "No has iniciado sesión";
                 }
 
-                
+                // Comprobar los filtros activos
+                $filtros = [
+                    "Rótulo" => isset($_POST["Rótulo"]) && $_POST["Rótulo"] !== "Cualquiera" ? $_POST["Rótulo"] : null,
+                    "Provincia" => isset($_POST["Provincia"]) && $_POST["Provincia"] !== "Cualquiera" ? $_POST["Provincia"] : null,
+                    $_POST["Gasolina"] => isset($_POST["Gasolina"]) && $_POST["Gasolina"] !== "Cualquiera" ? $_POST["Gasolina"] : null,
+                    "Campo2" => isset($_POST["Campo2"]) && $_POST["Campo2"] !== "Cualquiera" ? $_POST["Campo2"] : null,
+                ];
+                $sql = "SELECT * FROM gasolineras g INNER JOIN precios_gasolinera pg on g.id = pg.gasolinera_id WHERE ";
+                $condiciones = [];
 
-                // Consulta a la base de datos
-                $sql = "SELECT * FROM gasolineras";
+                foreach ($filtros as $campo => $valor) {
+                    if ($valor !== null) {
+                        $condiciones[] = "$campo = '$valor'";
+                    }
+                }
+
+                if (count($condiciones) > 0) {
+                    $sql .= implode(" AND ", $condiciones);
+                } else {
+                    $sql .= "1";
+                }
+
                 $result = mysqli_query($conn, $sql);
 
-                // Itera sobre los resultados de la consulta y agrega los datos a la lista HTML
                 if (mysqli_num_rows($result) > 0) {
                     
                     while($row = mysqli_fetch_assoc($result)) {
