@@ -103,7 +103,7 @@
                 $filtros = [
                     "Rótulo" => isset($_POST["Rótulo"]) && $_POST["Rótulo"] !== "Cualquiera" ? $_POST["Rótulo"] : null,
                     "Provincia" => isset($_POST["Provincia"]) && $_POST["Provincia"] !== "Cualquiera" ? $_POST["Provincia"] : null,
-                    $_POST["Gasolina"] => isset($_POST["Gasolina"]) && $_POST["Gasolina"] !== "Cualquiera" ? $_POST["Gasolina"] : null,
+                    // $_POST["Gasolina"] => isset($_POST["Gasolina"]) && $_POST["Gasolina"] !== "Cualquiera" ? $_POST["Gasolina"] : null,
                     "Campo2" => isset($_POST["Campo2"]) && $_POST["Campo2"] !== "Cualquiera" ? $_POST["Campo2"] : null,
                 ];
                 $sql = "SELECT * FROM gasolineras g INNER JOIN precios_gasolinera pg on g.id = pg.gasolinera_id WHERE ";
