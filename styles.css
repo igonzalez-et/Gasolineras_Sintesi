@@ -308,6 +308,13 @@ button.ghost {
     background-color: rgba(0,0,0,0.4);
 }
 
+.nav-menu img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
 /* Logo */
 
 .logo {
@@ -688,6 +695,12 @@ button.ghost {
 
 /* DETALLES GASOLINERA */
 
+#bodyDetalleGasolineras {
+    background: linear-gradient(to right, #0B3D91, #add8e6);
+	color: #add8e6;
+	font-family: Arial, sans-serif;
+}
+
 .contenedorMensajes {
     width: 80vw;
     margin: auto;
@@ -698,4 +711,25 @@ button.ghost {
 #mensajeUsuario {
     width: 80%;
     height: 200px;
+}
+
+.user-comment {
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.user-comment img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-weight: bold;
+    margin: 0;
+}
+
+.comment-text {
+    margin: 0;
 }

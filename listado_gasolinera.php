@@ -21,7 +21,6 @@
 <body id="bodyGasolineras">
     <?php 
         include("./includes/header.php");
-        include("utilidades.php");
     ?>
     
     <div class="gasolineras">
@@ -33,7 +32,6 @@
                 <select name="Rótulo">
                     <option value="Cualquiera">Cualquiera</option>
                     <?php
-                        $conn = conectarBDD();
                         $sql = "select Rótulo from gasolineras group by Rótulo;";
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
@@ -73,7 +71,10 @@
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) {
-                                echo "<option value=\"$row[columnas]\">$row[columnas]</option>\n";
+                                if($row['columnas'] != 'gasolinera_id') {
+                                    echo "<option value=\"$row[columnas]\">$row[columnas]</option>\n";
+
+                                }
                             }
                         }
                     ?>
@@ -106,7 +107,13 @@
                     // $_POST["Gasolina"] => isset($_POST["Gasolina"]) && $_POST["Gasolina"] !== "Cualquiera" ? $_POST["Gasolina"] : null,
                     "Campo2" => isset($_POST["Campo2"]) && $_POST["Campo2"] !== "Cualquiera" ? $_POST["Campo2"] : null,
                 ];
-                $sql = "SELECT * FROM gasolineras g INNER JOIN precios_gasolinera pg on g.id = pg.gasolinera_id WHERE ";
+                if(isset($_POST['Gasolina']) && $_POST['Gasolina'] != 'Cualquiera') {
+                    $sql = "SELECT g.*, pg.".$_POST['Gasolina']." FROM gasolineras g INNER JOIN precios_gasolinera pg on g.id = pg.gasolinera_id ";
+                }
+                else {
+                    $sql = "SELECT * FROM gasolineras ";
+                }
+                
                 $condiciones = [];
 
                 foreach ($filtros as $campo => $valor) {
@@ -116,10 +123,16 @@
                 }
 
                 if (count($condiciones) > 0) {
+                    $sql .= "WHERE ";
                     $sql .= implode(" AND ", $condiciones);
-                } else {
-                    $sql .= "1";
                 }
+
+                if(isset($_POST["Gasolina"]) && $_POST['Gasolina'] != 'Cualquiera') {
+                    $sql .= "group by g.id, pg.".$_POST['Gasolina']." order by ".$_POST['Gasolina']." desc" ;
+                }
+
+                
+                
 
                 $result = mysqli_query($conn, $sql);
 

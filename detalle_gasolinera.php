@@ -8,12 +8,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./scripts.js"></script>
+    <script src="./utilities.js"></script>
     <title>Detalle gasolinera</title>
 </head>
-<body>
+<body id="bodyDetalleGasolineras">
 <?php
-        include("utilidades.php");
-        $conn = conectarBDD();
+        include("./includes/header.php");
         if(isset($_SESSION["correo"])) {
             $sql = "SELECT * FROM usuarios where correo = '".$_SESSION["correo"]."';";
             $result = mysqli_query($conn, $sql);
@@ -26,37 +30,59 @@
     ?>
     <div class="contenedorDetallesGasolinera">
         <?php
-            if(!isset($_POST["id"])) {
-                echo "No has seleccionado ninguna gasolinera.";
-            }
-            else {
+            if(isset($_POST['id'])) {
                 $_SESSION["gasolinera"] = $_POST["id"];
-                // Consulta a la base de datos
-                $sql = "select * from gasolineras g left join precios_gasolinera pg on pg.gasolinera_id = g.id where g.id = ".$_POST["id"];
-                $result = mysqli_query($conn, $sql);
+            }
 
-                // Itera sobre los resultados de la consulta y agrega los datos a la lista HTML
-                if (mysqli_num_rows($result) > 0) {
-                    while($row = mysqli_fetch_assoc($result)) {
+            // Consulta a la base de datos
+            $sql = "select * from gasolineras g left join precios_gasolinera pg on pg.gasolinera_id = g.id where g.id = ". $_SESSION["gasolinera"] ." order by ultima_actualizacion desc limit 1";
+            $result = mysqli_query($conn, $sql);
 
-                        $direccion = $row['Dirección'];
-                        $latitud = $row['Latitud'];
-                        $latitud = str_replace(',', '.', $latitud);
-                        $localidad = $row['Localidad'];
-                        $longitud = $row['Longitud__WGS84'];
-                        $longitud = str_replace(',', '.', $longitud);
-                        $provincia = $row['Provincia'];
+            // Itera sobre los resultados de la consulta y agrega los datos a la lista HTML
+            if (mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
 
-                        foreach ($row as $key) {
-                            echo $key."<br>";
+                    echo "<h2>Información:</h2>";
+
+                    $cp = $row['CP'];
+                    $direccion = $row['Dirección'];
+                    $horario = $row['Horario'];
+                    $localidad = $row['Localidad'];
+                    $municipio = $row['Municipio'];
+                    $provincia = $row['Provincia'];
+                    $rotulo = $row['Rótulo'];
+                    $ultima_actualizacion = $row['ultima_actualizacion'];
+                    echo "<p>Código Postal: ". $cp ."</p>";
+                    echo "<p>Direccion: ". $direccion . "</p>";
+                    echo "<p>Horario: ". $horario . "</p>";
+                    echo "<p>Localidad: ". $localidad . "</p>";
+                    echo "<p>Municipio: ". $municipio . "</p>";
+                    echo "<p>Provincia: ". $provincia . "</p>";
+                    echo "<p>Rótulo: ". $rotulo . "</p>";
+
+                    //Recoger la ubicación para utilizarlo en el maps 
+                    $latitud = $row['Latitud'];
+                    $latitud = str_replace(',', '.', $latitud);
+                    $longitud = $row['Longitud__WGS84'];
+                    $longitud = str_replace(',', '.', $longitud);
+                    
+
+                    echo "<h2>Precios:</h2>";
+                    echo "<p>Ultima actualización: ". $ultima_actualizacion . "</p>";
+
+                    foreach ($row as $key => $value) {
+                        if (strpos($key, "Precio") === 0) {
+                            if($value != null || $value != "") {
+                                echo "<p>$key $value</p>";
+                            }
                         }
                     }
-                } else {
-                    echo "No se encontraron resultados.";
                 }
-
-                // Cierra la conexión a la base de datos
+            } else {
+                echo "No se encontraron resultados.";
             }
+
+            
         ?>
 
 
@@ -72,66 +98,68 @@ src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3107.622266178177!2d<
             <textarea id="mensajeUsuario" name="mensaje" maxlength="512"></textarea><br>
             <input type="submit" value="Enviar mensaje">
         </form>
-        <?php
-            $sql3 = "SELECT count(*) as contador FROM mensajes;";
-            $result3 = mysqli_query($conn, $sql3);
-            if (mysqli_num_rows($result3) > 0) {
-                while($row3 = mysqli_fetch_assoc($result3)) {
-                    if($row3["contador"] > 0) {
-                        if(isset($_POST["id"])) {
-                            $sql = "select * from mensajes m inner join mensajes_usuarios mu on m.id = mu.mensaje_id where gasolinera_id = ".$_POST["id"].";";
-                            $result = mysqli_query($conn, $sql);
-                            if (mysqli_num_rows($result) > 0) {
-                                while($row = mysqli_fetch_assoc($result)) {
-                                    $usuario = $row["usuario_id"];
-                                    $sql2 = "SELECT * FROM usuarios where id = ".$usuario.";";
-                                    $result2 = mysqli_query($conn, $sql2);
-                                    if (mysqli_num_rows($result2) > 0) {
-                                        while($row2 = mysqli_fetch_assoc($result2)) {
-                                            $mostrarMensaje = "<br> <p>". $row2["nombre"] . " " ;
+        <div class="user-comment">
+            <?php
+                $sql3 = "SELECT count(*) as contador FROM mensajes;";
+                $result3 = mysqli_query($conn, $sql3);
+                if (mysqli_num_rows($result3) > 0) {
+                    while($row3 = mysqli_fetch_assoc($result3)) {
+                        if($row3["contador"] > 0) {
+                            if(isset($_SESSION["gasolinera"])) {
+                                $sql = "select * from mensajes m inner join mensajes_usuarios mu on m.id = mu.mensaje_id where gasolinera_id = ".$_SESSION["gasolinera"].";";
+                                $result = mysqli_query($conn, $sql);
+                                if (mysqli_num_rows($result) > 0) {
+                                    while($row = mysqli_fetch_assoc($result)) {
+                                        $usuario = $row["usuario_id"];
+                                        $sql2 = "SELECT * FROM usuarios where id = ".$usuario.";";
+                                        $result2 = mysqli_query($conn, $sql2);
+                                        if (mysqli_num_rows($result2) > 0) {
+                                            while($row2 = mysqli_fetch_assoc($result2)) {
+                                                $mostrarMensaje = "<p class='user-name'><img src='./perfiles/foto/". $row2["foto"] ."' alt='Foto de perfil de usuario'> ". $row2["nombre"] . " - " ;
+                                            }
                                         }
+        
+                                        // Definir la fecha y hora del comentario
+                                        $fecha_comentario = $row["fecha"];
+                                        $timestamp_comentario = strtotime($fecha_comentario);
+                                        $timestamp_actual = time();
+                                        $diferencia_segundos = $timestamp_actual - $timestamp_comentario;
+        
+                                        // Calcular la cantidad de tiempo de diferencia
+                                        if ($diferencia_segundos < 60) {
+                                            $tiempo_relativo = "Hace unos segundos";
+                                        } elseif ($diferencia_segundos < 3600) {
+                                            $cantidad = floor($diferencia_segundos / 60);
+                                            $tiempo_relativo = "Hace " . $cantidad . " minutos";
+                                        } elseif ($diferencia_segundos < 86400) {
+                                            $cantidad = floor($diferencia_segundos / 3600);
+                                            $tiempo_relativo = "Hace " . $cantidad . " horas";
+                                        } elseif ($diferencia_segundos < 604800) {
+                                            $cantidad = floor($diferencia_segundos / 86400);
+                                            $tiempo_relativo = "Hace " . $cantidad . " días";
+                                        } elseif ($diferencia_segundos < 2592000) {
+                                            $cantidad = floor($diferencia_segundos / 604800);
+                                            $tiempo_relativo = "Hace " . $cantidad . " semanas";
+                                        } elseif ($diferencia_segundos < 31536000) {
+                                            $cantidad = floor($diferencia_segundos / 2592000);
+                                            $tiempo_relativo = "Hace " . $cantidad . " meses";
+                                        } else {
+                                            $cantidad = floor($diferencia_segundos / 31536000);
+                                            $tiempo_relativo = "Hace " . $cantidad . " años";
+                                        }
+        
+                                        $mostrarMensaje .= $tiempo_relativo . "</p><p class='comment-text'>" . $row["mensaje"]."</p> <br>";
+                                        echo $mostrarMensaje;
                                     }
-    
-                                    // Definir la fecha y hora del comentario
-                                    $fecha_comentario = $row["fecha"];
-                                    $timestamp_comentario = strtotime($fecha_comentario);
-                                    $timestamp_actual = time();
-                                    $diferencia_segundos = $timestamp_actual - $timestamp_comentario;
-    
-                                    // Calcular la cantidad de tiempo de diferencia
-                                    if ($diferencia_segundos < 60) {
-                                        $tiempo_relativo = "Hace unos segundos";
-                                    } elseif ($diferencia_segundos < 3600) {
-                                        $cantidad = floor($diferencia_segundos / 60);
-                                        $tiempo_relativo = "Hace " . $cantidad . " minutos";
-                                    } elseif ($diferencia_segundos < 86400) {
-                                        $cantidad = floor($diferencia_segundos / 3600);
-                                        $tiempo_relativo = "Hace " . $cantidad . " horas";
-                                    } elseif ($diferencia_segundos < 604800) {
-                                        $cantidad = floor($diferencia_segundos / 86400);
-                                        $tiempo_relativo = "Hace " . $cantidad . " días";
-                                    } elseif ($diferencia_segundos < 2592000) {
-                                        $cantidad = floor($diferencia_segundos / 604800);
-                                        $tiempo_relativo = "Hace " . $cantidad . " semanas";
-                                    } elseif ($diferencia_segundos < 31536000) {
-                                        $cantidad = floor($diferencia_segundos / 2592000);
-                                        $tiempo_relativo = "Hace " . $cantidad . " meses";
-                                    } else {
-                                        $cantidad = floor($diferencia_segundos / 31536000);
-                                        $tiempo_relativo = "Hace " . $cantidad . " años";
-                                    }
-    
-                                    $mostrarMensaje .= $tiempo_relativo . "<br>" . $row["mensaje"]."</p> <br>";
-                                    echo $mostrarMensaje;
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            
-        ?>
+                
+            ?>
+        </div>
     </div>
 
     <?php

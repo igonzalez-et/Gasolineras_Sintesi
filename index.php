@@ -26,7 +26,23 @@
                     <li><a href="#">Consejos para ahorrar</a></li>
                     <li><a href="#">Preguntas frecuentes</a></li>
                     <li><a href="#">Contacto</a></li>
-                    <li><button class="perfil" id="toggleButton"><i class="fa fa-user"></i> <?php echo "<span>".$_SESSION["correo"]."</span>" ?></button></li>
+                    <?php
+                        include("utilidades.php");
+                        $conn = conectarBDD();
+                        if(isset($_SESSION["correo"])) {
+                            $sql = "SELECT * FROM usuarios where correo = '".$_SESSION["correo"]."';";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    echo "<li><button class='perfil' id='toggleButton'><img src='./perfiles/foto/". $row["foto"] ."' alt='Foto de perfil de usuario'> <span>".$_SESSION["correo"]."</span></button></li>";
+                                }
+                            }
+                        }
+                        else {
+                            echo "<li><button class='perfil' id='toggleButton'><i class='fa fa-user'></i> <span>".$_SESSION["correo"]."</span></button></li>";
+                        }
+                        
+                    ?>
                 </ul>
                 <ul id="menu-perfil" class="hidden">
                     <a href='./perfil.php'><li>Ver perfil</li></a>
@@ -56,7 +72,7 @@
             <p>Por otro lado, el buscador de gasolineras también puede ser beneficioso para los propietarios de estaciones de servicio. Al estar incluidos en la base de datos del buscador, tienen más posibilidades de ser encontrados por usuarios que podrían no haber conocido su existencia de otra manera. Esto puede llevar a un aumento en las ventas y a un aumento en la exposición de su marca. Además, si los propietarios de las estaciones de servicio tienen actualizada su información en la base de datos, los usuarios pueden tener una experiencia más satisfactoria al encontrar la información que necesitan de forma rápida y precisa.</p>
             <br>
             <div class="actButton">
-                <a href="#">Buscar</a>
+                <a href="../listado_gasolinera.php">Buscar</a>
             </div>
         </div>
     </div>
