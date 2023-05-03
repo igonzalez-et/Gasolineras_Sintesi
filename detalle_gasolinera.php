@@ -41,7 +41,8 @@
             // Itera sobre los resultados de la consulta y agrega los datos a la lista HTML
             if (mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
-
+                    echo "<div class='generalGasolinera'>";
+                    echo "<div class='informacionGasolinera'>";
                     echo "<h2>Información:</h2>";
 
                     $cp = $row['CP'];
@@ -52,31 +53,64 @@
                     $provincia = $row['Provincia'];
                     $rotulo = $row['Rótulo'];
                     $ultima_actualizacion = $row['ultima_actualizacion'];
-                    echo "<p>Código Postal: ". $cp ."</p>";
-                    echo "<p>Direccion: ". $direccion . "</p>";
-                    echo "<p>Horario: ". $horario . "</p>";
-                    echo "<p>Localidad: ". $localidad . "</p>";
-                    echo "<p>Municipio: ". $municipio . "</p>";
-                    echo "<p>Provincia: ". $provincia . "</p>";
-                    echo "<p>Rótulo: ". $rotulo . "</p>";
 
+
+                    // Hacer reemplazos en el horario
+                    $horario = str_replace("-", " a ", $horario);
+                    $horario = str_replace(";", "<br>", $horario);
+
+                    if (strpos($horario, "L") !== false) {
+                        $horario = str_replace("L", "Lunes", $horario);
+                    }
+                    if (strpos($horario, "J") !== false) {
+                        $horario = str_replace("J", "Jueves", $horario);
+                    }
+                    if (strpos($horario, "V") !== false) {
+                        $horario = str_replace("V", "Viernes", $horario);
+                    }
+                    if (strpos($horario, "S") !== false) {
+                        $horario = str_replace("S", "Sábado", $horario);
+                    }
+                    if (strpos($horario, "D") !== false) {
+                        $horario = str_replace("D", "Domingo", $horario);
+                    }
+                    
+
+                    echo "<p>Código Postal: ". $cp ."</p>";
+                    echo "<p>Provincia: ". $provincia . "</p>";
+                    echo "<p>Municipio: ". $municipio . "</p>";
+                    echo "<p>Direccion: ". $direccion . "</p>";
+                    echo "<p>Localidad: ". $localidad . "</p>";
+                    echo "<p>Rótulo: ". $rotulo . "</p>";
+                    
                     //Recoger la ubicación para utilizarlo en el maps 
                     $latitud = $row['Latitud'];
                     $latitud = str_replace(',', '.', $latitud);
                     $longitud = $row['Longitud__WGS84'];
                     $longitud = str_replace(',', '.', $longitud);
                     
+                    echo "</div>";
 
+                    echo "<div class='preciosGasolinera'>";
                     echo "<h2>Precios:</h2>";
-                    echo "<p>Ultima actualización: ". $ultima_actualizacion . "</p>";
-
                     foreach ($row as $key => $value) {
                         if (strpos($key, "Precio") === 0) {
                             if($value != null || $value != "") {
-                                echo "<p>$key $value</p>";
+                                $key = str_replace("Precio_", "", $key);
+                                echo "<p>$key $value €</p>";
                             }
                         }
                     }
+
+                    echo "</div>";
+
+                    echo "<div class='contenedorHorario'>";
+                    echo "<p><b>Horario:</b><br> ". $horario . "</p>";    
+                    echo "</div>";
+
+                    echo "<p class='pUltimaActualizacion'><b>Ultima actualización</b>: ". $ultima_actualizacion . "</p>";
+
+                    echo "</div>";
                 }
             } else {
                 echo "No se encontraron resultados.";
@@ -84,19 +118,20 @@
 
             
         ?>
-
-
-       <iframe width="600" height="450" frameborder="0" style="border:0"
-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3107.622266178177!2d<?php echo $longitud; ?>!3d<?php echo $latitud; ?>!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd620d8c08ab1b7f%3A0x244f0d93e16b1fb!2s<?php echo urlencode($direccion . ', ' . $localidad . ', ' . $provincia); ?>!5e0!3m2!1sen!2ses!4v1620195695186!5m2!1sen!2ses" allowfullscreen></iframe>
-
-
+        <div class="contenedorRutaDetalles">
+            <iframe id="mapaDetalles" frameborder="0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3107.622266178177!2d<?php echo $longitud; ?>!3d<?php echo $latitud; ?>!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd620d8c08ab1b7f%3A0x244f0d93e16b1fb!2s<?php echo urlencode($direccion . ', ' . $localidad . ', ' . $provincia); ?>!5e0!3m2!1sen!2ses!4v1620195695186!5m2!1sen!2ses" allowfullscreen></iframe>
+            
+            <?php
+                echo '<a href="https://www.google.com/maps?q='.urlencode($direccion . ', ' . $localidad . ', ' . $provincia).'&ll='.$latitud . ',' . $longitud.'&z=17" target="_blank">Ver ubicación</a>';
+            ?>
+        </div>
     </div>
     <div class="contenedorMensajes">
         <h2>Comentarios: </h2><br>
         <form method="post">
             <label for="mensaje">Ingrese su mensaje (máximo 512 caracteres):</label><br>
             <textarea id="mensajeUsuario" name="mensaje" maxlength="512"></textarea><br>
-            <input type="submit" value="Enviar mensaje">
+            <input id="enviarComentario" type="submit" value="Enviar comentario">
         </form>
         <div class="user-comment">
             <?php

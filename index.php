@@ -34,20 +34,24 @@
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while($row = mysqli_fetch_assoc($result)) {
-                                    echo "<li><button class='perfil' id='toggleButton'><img src='./perfiles/foto/". $row["foto"] ."' alt='Foto de perfil de usuario'> <span>".$_SESSION["correo"]."</span></button></li>";
+                                    echo "<li><button class='perfil' id='toggleButton'><img src='./perfiles/foto/". $row["foto"] ."' alt='Foto de perfil de usuario'></button></li>";
+                                    echo "</ul>";
+                                    echo "<ul id='menu-perfil' class='hidden'>";
+                                    echo "<a href='./perfil.php'><li>Ver perfil</li></a>";
+                                    echo "<a href='./logout.php'><li>Cerrar sesión</li></a>";
+                                    echo "</ul>";
                                 }
                             }
                         }
                         else {
                             echo "<li><button class='perfil' id='toggleButton'><i class='fa fa-user'></i> <span>".$_SESSION["correo"]."</span></button></li>";
+                            echo "</ul>";
+                            echo "<ul id='menu-perfil' class='hidden'>";
+                            echo "<a href='./login.php'><li>Iniciar Sesión</li></a>";
+                            echo "</ul>";
                         }
                         
                     ?>
-                </ul>
-                <ul id="menu-perfil" class="hidden">
-                    <a href='./perfil.php'><li>Ver perfil</li></a>
-                    <a href='./logout.php'><li>Cerrar sesión</li></a>
-                </ul>
             </nav>
         </div>
     </header>
