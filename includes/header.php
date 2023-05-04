@@ -8,7 +8,7 @@
                 <li><a href="#">Calculadora de precios</a></li>
                 <li><a href="#">Consejos para ahorrar</a></li>
                 <li><a href="#">Preguntas frecuentes</a></li>
-                <li><a href="#">Contacto</a></li>
+                <li><a href="../usuarios.php">Buscar Usuarios</a></li>
                 <?php
                     include("utilidades.php");
                     $conn = conectarBDD();
@@ -17,17 +17,21 @@
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) {
-                                echo "<li><button class='perfil' id='toggleButton'><img src='./perfiles/foto/". $row["foto"] ."' alt='Foto de perfil de usuario'></button></li>";
+                                $foto = $row['foto'];
+                                if(!$foto){
+                                    $foto = "default.png";
+                                }
+                                echo "<li><button class='perfil' id='toggleButton'><img src='./perfiles/foto/". $foto ."' alt='Foto de perfil de usuario'></button></li>";
                                 echo "</ul>";
                                 echo "<ul id='menu-perfil' class='hidden'>";
-                                echo "<a href='./perfil.php'><li>Ver perfil</li></a>";
+                                echo "<a href='./perfil.php?usuario=".$row['nombre']."'><li>Ver perfil</li></a>";
                                 echo "<a href='./logout.php'><li>Cerrar sesión</li></a>";
                                 echo "</ul>";
                             }
                         }
                     }
                     else {
-                        echo "<li><button class='perfil' id='toggleButton'><i class='fa fa-user'></i> <span>".$_SESSION["correo"]."</span></button></li>";
+                        echo "<li><button class='perfil' id='toggleButton'><i class='fa fa-user'></i></button></li>";
                         echo "</ul>";
                         echo "<ul id='menu-perfil' class='hidden'>";
                         echo "<a href='./login.php'><li>Iniciar Sesión</li></a>";

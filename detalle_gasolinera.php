@@ -198,7 +198,7 @@
     </div>
 
     <?php
-        if(isset($_POST["mensaje"])) {
+        if(isset($_POST["mensaje"]) && !empty($_POST["mensaje"])) {
             $mensaje = $_POST["mensaje"];
 
             $sql = "INSERT INTO mensajes(mensaje, fecha) VALUES('".$mensaje."', current_timestamp())";
