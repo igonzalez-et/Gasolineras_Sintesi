@@ -25,7 +25,7 @@ if(isset($_FILES["foto_perfil"]) && $_FILES["foto_perfil"]["error"] == 0) {
         $stmt->execute();
 
         $conn->close();
-        header("Location: perfil.php");
+        header("Location: configuracion.php");
     } else {
         // Hubo un error al guardar el archivo
         echo "Ha ocurrido un error al guardar la imagen.";

@@ -27,7 +27,14 @@
         // Crea la tabla
         $sqlDrop = "DROP TABLE IF EXISTS gasolineras";
         $sqlDrop2 = "DROP TABLE IF EXISTS precios_gasolinera";
+        $sqlDrop3 = "DROP TABLE IF EXISTS favoritos_gasolinera";
 
+        if (mysqli_query($conn, $sqlDrop3)) {
+            echo "La tabla favoritos_gasolinera ha sido eliminada correctamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
+          
         if (mysqli_query($conn, $sqlDrop2)) {
             echo "La tabla precios_gasolinera ha sido eliminada correctamente";
         } else {
@@ -73,6 +80,22 @@
         echo $sqlPrecio;
         if (mysqli_query($conn, $sqlPrecio)) {
             echo "La tabla precios_gasolinera ha sido creada exitosamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
+
+        $sqlFavoritos = "CREATE TABLE `favoritos_gasolinera` (
+            `usuario_id` int DEFAULT NULL,
+            `gasolinera_id` int DEFAULT NULL,
+            KEY `usuario_id` (`usuario_id`),
+            KEY `gasolinera_id` (`gasolinera_id`),
+            CONSTRAINT `favoritos_gasolinera_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
+            CONSTRAINT `favoritos_gasolinera_ibfk_2` FOREIGN KEY (`gasolinera_id`) REFERENCES `gasolineras` (`id`)
+        )";
+
+        echo $sqlFavoritos;
+        if (mysqli_query($conn, $sqlFavoritos)) {
+            echo "La tabla favoritos_gasolinera ha sido creada exitosamente";
         } else {
             echo "Error al crear la tabla: " . mysqli_error($conn);
         }

@@ -6,7 +6,6 @@
 	box-sizing: border-box;
 }
 
-
 #bodyLogin {
     background: #F2F2F2;
     color: #000;
@@ -308,6 +307,13 @@ button.ghost {
     background-color: rgba(0,0,0,0.4);
 }
 
+.nav-menu img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
 /* Logo */
 
 .logo {
@@ -575,29 +581,24 @@ button.ghost {
 }
 
 .actButton a:hover {
-    transform: scale(1.1);
-    box-shadow: 0 14px 28px rgba(255, 238, 0, 0.5), 
-			0 10px 10px #000;
+    transform: scale(1.02);
+    box-shadow: 0px 3px 5px rgba(255, 238, 0, 0.5), 
+			0px 7px 10px #000;
 }
 
 
 /* LISTADO DE LAS GASOLINERAS */
 
 #bodyGasolineras {
-	background-color: #add8e6;
-	color: #0B3D91;
+	background: linear-gradient(to right, #0B3D91, #add8e6);
+	color: #add8e6;
 	font-family: Arial, sans-serif;
-}
-#bodyGasolineras h1 {
-	color: #0B3D91;
 }
 
 .gasolineras {
 	margin: 20px;
 	padding: 20px;
-	background-color: white;
-	border: 1px solid #0B3D91;
-	border-radius: 5px;
+    
 }
 .listagasolineras {
 	list-style: none;
@@ -613,19 +614,15 @@ button.ghost {
 .listagasolineras li {
 	margin: 5px 0;
 	padding: 5px;
-	background-color: #0B3D91;
-	color: white;
+	background-color: rgba(255, 255, 255,0.4);
+    color: #000;
 	border-radius: 5px;
     flex-basis: 45%;
     padding: 10px;
     box-sizing: border-box;
     height: 250px;
 }
-.listagasolineras li:nth-child(even) {
-	background-color: #add8e6;
-	color: #0B3D91;
-    margin-left: 5px;
-}
+
 
 .favorito {
 	background-color: yellow;
@@ -633,19 +630,22 @@ button.ghost {
 
 /* Perfil */
 
+#bodyPerfil {
+    background: linear-gradient(to right, #0B3D91, #add8e6);
+}
+
 .datosPerfil {
     width: 80vw;
     height: 40vh;
     display: flex;
     justify-content: space-around;
     margin: auto;
-    margin-top: 25px;
+    margin-top: 50px;
 }
 
 .imagenPerfil {
     width: 30%;
     height: 100%;
-    background-color: red;
 }
 
 .contenedorFotoPerfil {
@@ -661,6 +661,139 @@ button.ghost {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.descripcionPerfil {
+    width: 70%;
+    height: 100%;
+}
+
+
+/* DETALLES GASOLINERA */
+
+#bodyDetalleGasolineras {
+    background: linear-gradient(to right, #0B3D91, #add8e6);
+	color: #add8e6;
+	font-family: Arial, sans-serif;
+}
+
+.contenedorDetallesGasolinera {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    width: 60vw;
+    height: 60vh;
+    margin: 50px auto;
+    padding: 50px;
+    background: linear-gradient(to left, #0B3D91, #add8e6);
+    color: #000;
+    border-radius: 15px;
+    box-shadow: 5px 5px 3px black;
+}
+
+.generalGasolinera {
+    width: 50%;
+    height: 100%;
+    line-height: 1.5rem;
+}
+.generalGasolinera div {
+    margin-bottom: 25px;
+}
+
+.pUltimaActualizacion {
+    position: absolute;
+    bottom: 50px;
+}
+
+.contenedorRutaDetalles {
+    width: 50%;
+    height: 100%;   
+    float: right;
+}
+#mapaDetalles {
+    width: 100%;
+    height: 80%;
+    margin-bottom: 15px;
+}
+.contenedorRutaDetalles a {
+    position: absolute;
+    text-decoration: none;
+    padding: 15px;
+    background-color: #add8e6;
+    color: #000;
+    border-radius: 15px;
+    right: 50px;
+    bottom: 50px;
+}
+.contenedorRutaDetalles a:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 3px 5px rgba(255, 238, 0, 0.5), 
+			0px 7px 10px #000;
+}
+
+
+
+.contenedorMensajes {
+    width: 60vw;
+    margin: auto;
+    padding: 50px;
+    background-color: rgba(255, 255, 255,0.4);
+    color: #000;
+    margin: 50px auto;
+    overflow: hidden;
+    word-wrap: break-word;
+}
+
+#mensajeUsuario {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    border: 1px solid black;
+    border-radius: 2px;
+    margin-bottom: 5px;
+}
+#enviarComentario {
+    padding: 2px 3px;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+.user-comment {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.user-comment img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-weight: bold;
+    margin: 0;
+}
+
+.comment-text {
+    margin: 0;
+}
+
+/* Configuración */
+
+#bodyConfiguracion {
+    background: linear-gradient(to right, #0B3D91, #add8e6);
+}
+
+.contenedorFotoPerfilConfiguracion {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.contenedorFotoPerfilConfiguracion:hover .overlayFotoPerfil {
+    opacity: 1;
 }
 
 .overlayFotoPerfil {
@@ -680,12 +813,112 @@ button.ghost {
     transition: opacity 0.3s ease-in-out;
 }
 
-.contenedorFotoPerfil:hover .overlayFotoPerfil {
-    opacity: 1;
+/* Usuarios */
+
+#bodyUsuarios {
+    background: linear-gradient(to right, #0B3D91, #add8e6);
 }
 
-.descripcionPerfil {
-    width: 70%;
+.contenedorBuscadorUsuario {
+    margin: 50px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 50vw;
+}
+
+#buscadorUsuario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    width: 75%;
+}
+
+#buscadorUsuario input[type="text"] {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: transparent;
+    transition: border-color 0.2s ease-in-out;
+}
+
+#buscadorUsuario input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+#buscadorUsuario button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#buscadorUsuario button:hover {
+    background-color: #0069d9;
+}
+
+#resultado {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#resultado table {
+    margin-top: 50px;
+    border-collapse: collapse;
+    width: 75%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+#resultado th,
+td {
+    padding: 10px;
+    text-align: left;
+}
+
+#resultado td img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+#resultado table td a {
+    display: block;
+    width: 100%;
     height: 100%;
-    background-color: yellow;
+    text-decoration: none;
+    color: #000;
+  }
+
+#resultado th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+#resultado tr {
+    background-color: #f2f2f2;
+}
+
+#resultado tr:hover {
+    
+    background-color: rgba(255, 238, 0, 0.5);
 }
