@@ -27,7 +27,7 @@
         <h1>Lista de gasolineras</h1>
 
         <div class="filtros">
-            <form method="POST">
+            <form method="GET">
                 <label for="Rótulo">Rótulo:</label>
                 <select name="Rótulo">
                     <option value="Cualquiera">Cualquiera</option>
@@ -36,7 +36,12 @@
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) {
-                                echo "<option value=\"$row[Rótulo]\">$row[Rótulo]</option>\n";
+                                if($_GET["Rótulo"] == $row["Rótulo"]) {
+                                    echo "<option value=\"$row[Rótulo]\" selected>$row[Rótulo]</option>\n";
+                                }
+                                else {
+                                    echo "<option value=\"$row[Rótulo]\">$row[Rótulo]</option>\n";
+                                }
                             }
                         }
                     ?>
@@ -50,7 +55,12 @@
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) {
-                                echo "<option value=\"$row[Provincia]\">$row[Provincia]</option>\n";
+                                if($_GET["Provincia"] == $row["Provincia"]) {
+                                    echo "<option value=\"$row[Provincia]\" selected>$row[Provincia]</option>\n";
+                                }
+                                else {
+                                    echo "<option value=\"$row[Provincia]\">$row[Provincia]</option>\n";
+                                }
                             }
                         }
                     ?>
@@ -72,8 +82,12 @@
                         if (mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) {
                                 if($row['columnas'] != 'gasolinera_id') {
-                                    echo "<option value=\"$row[columnas]\">$row[columnas]</option>\n";
-
+                                    if($_GET["Gasolina"] == $row["columnas"]) {
+                                        echo "<option value=\"$row[columnas]\" selected>$row[columnas]</option>\n";
+                                    }
+                                    else {
+                                        echo "<option value=\"$row[columnas]\">$row[columnas]</option>\n";
+                                    }
                                 }
                             }
                         }
@@ -102,13 +116,13 @@
 
                 // Comprobar los filtros activos
                 $filtros = [
-                    "Rótulo" => isset($_POST["Rótulo"]) && $_POST["Rótulo"] !== "Cualquiera" ? $_POST["Rótulo"] : null,
-                    "Provincia" => isset($_POST["Provincia"]) && $_POST["Provincia"] !== "Cualquiera" ? $_POST["Provincia"] : null,
+                    "Rótulo" => isset($_GET["Rótulo"]) && $_GET["Rótulo"] !== "Cualquiera" ? $_GET["Rótulo"] : null,
+                    "Provincia" => isset($_GET["Provincia"]) && $_GET["Provincia"] !== "Cualquiera" ? $_GET["Provincia"] : null,
                     // $_POST["Gasolina"] => isset($_POST["Gasolina"]) && $_POST["Gasolina"] !== "Cualquiera" ? $_POST["Gasolina"] : null,
-                    "Campo2" => isset($_POST["Campo2"]) && $_POST["Campo2"] !== "Cualquiera" ? $_POST["Campo2"] : null,
+                    "Campo2" => isset($_GET["Campo2"]) && $_GET["Campo2"] !== "Cualquiera" ? $_GET["Campo2"] : null,
                 ];
-                if(isset($_POST['Gasolina']) && $_POST['Gasolina'] != 'Cualquiera') {
-                    $sql = "SELECT g.*, pg.".$_POST['Gasolina']." FROM gasolineras g INNER JOIN precios_gasolinera pg on g.id = pg.gasolinera_id ";
+                if(isset($_GET['Gasolina']) && $_GET['Gasolina'] != 'Cualquiera') {
+                    $sql = "SELECT g.*, pg.".$_GET['Gasolina']." FROM gasolineras g INNER JOIN precios_gasolinera pg on g.id = pg.gasolinera_id ";
                 }
                 else {
                     $sql = "SELECT * FROM gasolineras ";
@@ -122,17 +136,23 @@
                     }
                 }
 
+                $condicionesBoolean = False;
                 if (count($condiciones) > 0) {
                     $sql .= "WHERE ";
                     $sql .= implode(" AND ", $condiciones);
+                    $condicionesBoolean = True;
                 }
 
-                if(isset($_POST["Gasolina"]) && $_POST['Gasolina'] != 'Cualquiera') {
-                    $sql .= "group by g.id, pg.".$_POST['Gasolina']." order by ".$_POST['Gasolina']." desc" ;
-                }
-
-                
-                
+                if(isset($_GET["Gasolina"]) && $_GET['Gasolina'] != 'Cualquiera') {
+                    if(!$condicionesBoolean) {
+                        $sql .= "WHERE ";
+                        $sql .= " pg.".$_GET['Gasolina'] ." != 'null'";
+                    }
+                    else {
+                        $sql .= " AND pg.".$_GET['Gasolina'] ." != 'null'";
+                    }
+                    $sql .= "group by g.id, pg.".$_GET['Gasolina']." order by ".$_GET['Gasolina']." asc" ;                
+                }                
 
                 $result = mysqli_query($conn, $sql);
 
