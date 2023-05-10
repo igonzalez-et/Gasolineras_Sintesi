@@ -151,8 +151,9 @@
                     else {
                         $sql .= " AND pg.".$_GET['Gasolina'] ." != 'null'";
                     }
-                    $sql .= "group by g.id, pg.".$_GET['Gasolina']." order by ".$_GET['Gasolina']." asc" ;                
+                    $sql .= "group by g.id, pg.".$_GET['Gasolina']." order by ".$_GET['Gasolina']." asc;" ;                
                 }                
+                echo '<script>console.log("'.$sql.'");</script>';
 
                 $result = mysqli_query($conn, $sql);
 

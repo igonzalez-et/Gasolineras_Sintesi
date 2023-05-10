@@ -88,6 +88,18 @@
             else {
                 echo "Este usuario es privado.";
             }
+
+            // Añadir el usuario buscado al array
+            if(!isset($_SESSION['arrayRecientes'])) {
+                $_SESSION['arrayRecientes'] = array();
+            }
+            if (in_array($usuario, $_SESSION['arrayRecientes'])) {
+                $key = array_search($usuario, $_SESSION['arrayRecientes']);
+                unset($_SESSION['arrayRecientes'][$key]);
+                array_unshift($_SESSION['arrayRecientes'], $usuario);
+            } else {
+                array_unshift($_SESSION['arrayRecientes'], $usuario);
+            }
         }
 
     ?>
