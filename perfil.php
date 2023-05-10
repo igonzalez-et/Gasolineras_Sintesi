@@ -83,7 +83,7 @@
         }
         else {
             if($privacidad == "publico") {
-                include("./includes/gasolineras_favoritas.php");
+                include("./includes/gasolineras_favoritas_visitante.php");
             }
             else {
                 echo "Este usuario es privado.";

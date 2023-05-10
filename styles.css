@@ -610,23 +610,80 @@ button.ghost {
     flex-wrap: wrap;
     flex-direction: row;
     align-items: stretch;
-
 }
 .listagasolineras li {
+    position: relative;
 	margin: 5px 0;
 	padding: 5px;
 	background-color: rgba(255, 255, 255,0.4);
     color: #000;
 	border-radius: 5px;
-    flex-basis: 45%;
+    flex-basis: 30%;
     padding: 10px;
     box-sizing: border-box;
     height: 250px;
 }
 
+.accionesGasolinera {
+    position: absolute;
+    width: 100%;
+    padding-bottom: 15px;
+    bottom: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.accionesGasolinera a {
+    text-decoration: none;
+    padding: 10px;
+    background-color: #add8e6;
+    color: #000;
+    border-radius: 15px;
+    font-size: 14px;
+}
+.accionesGasolinera a:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 3px 5px rgba(255, 238, 0, 0.5), 
+			0px 7px 10px #000;
+}
+
+.accionesGasolinera button {
+    padding: 10px;
+    background-color: #add8e6;
+    color: #000;
+    border: 0;
+    border-radius: 15px;
+}
+
+.accionesGasolinera button:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+    box-shadow: 0px 3px 5px rgba(255, 238, 0, 0.5), 
+			0px 7px 10px #000;
+}
+
+.accionesGasolinera input[type="submit"] {
+    padding: 10px;
+    color: #000;
+    border: 0;
+    border-radius: 15px;
+}
+
+.accionesGasolinera input[type="submit"]:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+    box-shadow: 0px 3px 5px rgba(255, 238, 0, 0.5), 
+			0px 7px 10px #000;
+}
 
 .favorito {
 	background-color: yellow;
+}
+
+.botonFavoritoVisitante {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* Perfil */
@@ -813,6 +870,112 @@ button.ghost {
     color: #fff;
     transition: opacity 0.3s ease-in-out;
 }
+
+.contenedorConfiguracion {
+    max-width: 800px;
+    margin: 25px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.contenedorConfiguracion h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0B3D91;
+}
+
+.contenedorFotoPerfilConfiguracion {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
+}
+
+.FotoPerfil {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.overlayFotoPerfil {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 238, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.overlayFotoPerfil:hover {
+    opacity: 1;
+}
+
+.overlayFotoPerfil span {
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.contenedorConfiguracion input[type="file"] {
+    display: none;
+}
+
+.contenedorConfiguracion input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0B3D91;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.contenedorConfiguracion input[type="submit"]:hover {
+    background-color: #add8e6;
+}
+
+.contenedorConfiguracion label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #0B3D91;
+}
+
+.contenedorConfiguracion input[type="text"],
+.contenedorConfiguracion input[type="email"],
+.contenedorConfiguracion input[type="password"],
+.contenedorConfiguracion select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.contenedorConfiguracion select {
+    background-color: #fff;
+    color: #0B3D91;
+}
+
 
 /* Usuarios */
 

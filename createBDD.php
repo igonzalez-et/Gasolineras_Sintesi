@@ -28,6 +28,13 @@
         $sqlDrop = "DROP TABLE IF EXISTS gasolineras";
         $sqlDrop2 = "DROP TABLE IF EXISTS precios_gasolinera";
         $sqlDrop3 = "DROP TABLE IF EXISTS favoritos_gasolinera";
+        $sqlDrop4 = "DROP TABLE IF EXISTS mensajes_usuarios";
+
+        if (mysqli_query($conn, $sqlDrop4)) {
+            echo "La tabla mensajes_usuarios ha sido eliminada correctamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
 
         if (mysqli_query($conn, $sqlDrop3)) {
             echo "La tabla favoritos_gasolinera ha sido eliminada correctamente";

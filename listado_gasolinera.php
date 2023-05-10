@@ -36,7 +36,7 @@
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) {
-                                if($_GET["Rótulo"] == $row["Rótulo"]) {
+                                if(strtoupper($_GET["Rótulo"]) == $row["Rótulo"]) {
                                     echo "<option value=\"$row[Rótulo]\" selected>$row[Rótulo]</option>\n";
                                 }
                                 else {
@@ -55,7 +55,7 @@
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) {
-                                if($_GET["Provincia"] == $row["Provincia"]) {
+                                if(strtoupper($_GET["Provincia"]) == $row["Provincia"]) {
                                     echo "<option value=\"$row[Provincia]\" selected>$row[Provincia]</option>\n";
                                 }
                                 else {
@@ -82,7 +82,7 @@
                         if (mysqli_num_rows($result) > 0) {
                             while($row = mysqli_fetch_assoc($result)) {
                                 if($row['columnas'] != 'gasolinera_id') {
-                                    if($_GET["Gasolina"] == $row["columnas"]) {
+                                    if(strtoupper($_GET["Gasolina"]) == strtoupper($row["columnas"])) {
                                         echo "<option value=\"$row[columnas]\" selected>$row[columnas]</option>\n";
                                     }
                                     else {
@@ -146,10 +146,10 @@
                 if(isset($_GET["Gasolina"]) && $_GET['Gasolina'] != 'Cualquiera') {
                     if(!$condicionesBoolean) {
                         $sql .= "WHERE ";
-                        $sql .= " pg.".$_GET['Gasolina'] ." != 'null'";
+                        $sql .= " pg.".$_GET['Gasolina'] ." != 'null' ";
                     }
                     else {
-                        $sql .= " AND pg.".$_GET['Gasolina'] ." != 'null'";
+                        $sql .= " AND pg.".$_GET['Gasolina'] ." != 'null' ";
                     }
                     $sql .= "group by g.id, pg.".$_GET['Gasolina']." order by ".$_GET['Gasolina']." asc;" ;                
                 }                
@@ -179,6 +179,7 @@
                         }
                         echo 
                         "<li>CP: " . $row["CP"] . " - Dirección: " . $row["Dirección"] . " - Provincia: " . $row["Provincia"] . " - Rótulo: " . $row["Rótulo"] . " - Municipio: " . $row["Municipio"] .
+                            '<div class="accionesGasolinera">'.
                             '<form id="form_' . $row["id"] . '" action="detalle_gasolinera.php" method="post">
                                 <input type="hidden" name="id" value="' . $row["id"] . '">
                                 <button type="submit">Ver detalles</button>
@@ -187,7 +188,8 @@
                                 <input type="hidden" name="id_gasolinera" value="' . $row["id"] . '">' . $strFavorito . '
                             </form>' .
                             '<a href="https://www.google.com/maps?q='.urlencode($direccion . ', ' . $localidad . ', ' . $provincia).'&ll='.$latitud . ',' . $longitud.'&z=17" target="_blank">Ver ubicación</a>'.
-                        "</li>";
+                            '</div>'.
+                            "</li>";
                     }
                 } else {
                     echo "No se encontraron resultados.";

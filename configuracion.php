@@ -117,41 +117,42 @@
             echo "No existe este usuario.";
         }
     ?>
+    <div class="contenedorConfiguracion">
+        <h2>Configuración del perfil</h2>
+        <form action="guardar_imagen.php" method="POST" enctype="multipart/form-data">
+            <div class="contenedorFotoPerfilConfiguracion">
+                <img src=<?php echo "'".$rutaImagenGuardada."'"; ?> id="previewFotoPerfil" alt="Foto de perfil actual" class="FotoPerfil">
+                <label for="inpFotoPerfil" class="overlayFotoPerfil">
+                    <span>Seleccionar imagen nueva</span>
+                </label>
+                <input type="file" id="inpFotoPerfil" name="foto_perfil" style="display:none;">
+            </div>
+            <input type="submit" value="Cambiar imagen" id="btnGuardar" style="display:none;">
+        </form>
 
-    <form action="guardar_imagen.php" method="POST" enctype="multipart/form-data">
-        <div class="contenedorFotoPerfilConfiguracion">
-            <img src=<?php echo "'".$rutaImagenGuardada."'"; ?> id="previewFotoPerfil" alt="Foto de perfil actual" class="FotoPerfil">
-            <label for="inpFotoPerfil" class="overlayFotoPerfil">
-                <span>Seleccionar imagen nueva</span>
-            </label>
-            <input type="file" id="inpFotoPerfil" name="foto_perfil" style="display:none;">
-        </div>
-        <input type="submit" value="Cambiar imagen" id="btnGuardar" style="display:none;">
-    </form>
+        <form method="post" action="">
 
-    <form method="post" action="">
+            <label for="nuevo_nombre">Nombre de usuario:</label>
+            <input type="text" name="nuevo_nombre" value="<?php echo $nombre; ?>"><br>
 
-        <label for="nuevo_nombre">Nombre de usuario:</label>
-        <input type="text" name="nuevo_nombre" value="<?php echo $nombre; ?>"><br>
+            <label for="nuevo_correo">Correo electrónico:</label>
+            <input type="email" name="nuevo_correo" value="<?php echo $correo; ?>"><br>
 
-        <label for="nuevo_correo">Correo electrónico:</label>
-        <input type="email" name="nuevo_correo" value="<?php echo $correo; ?>"><br>
+            <label for="nueva_contrasena">Nueva contraseña:</label>
+            <input type="password" name="nueva_contrasena"><br>
 
-        <label for="nueva_contrasena">Nueva contraseña:</label>
-        <input type="password" name="nueva_contrasena"><br>
+            <label for="confirmar_contrasena">Confirmar contraseña:</label>
+            <input type="password" name="confirmar_contrasena"><br>
 
-        <label for="confirmar_contrasena">Confirmar contraseña:</label>
-        <input type="password" name="confirmar_contrasena"><br>
+            <label for="privacidad">Privacidad:</label>
+            <select name="privacidad">
+                <option value="publico" <?php if ($privacidad == 'publico') { echo 'selected';} ?>>Público</option>
+                <option value="privado" <?php if ($privacidad == 'privado') { echo 'selected';} ?>>Privado</option>
+            </select><br>
 
-        <label for="privacidad">Privacidad:</label>
-        <select name="privacidad">
-            <option value="publico" <?php if ($privacidad == 'publico') { echo 'selected';} ?>>Público</option>
-            <option value="privado" <?php if ($privacidad == 'privado') { echo 'selected';} ?>>Privado</option>
-        </select><br>
-
-        <input type="submit" value="Guardar cambios">
-    </form>
-
+            <input type="submit" value="Guardar cambios">
+        </form>
+    </div>
     <script src="scripts.js"></script>
 </body>
 </html>

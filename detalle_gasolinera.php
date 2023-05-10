@@ -217,6 +217,7 @@
                 $sql = "INSERT INTO mensajes_usuarios(usuario_id, gasolinera_id, mensaje_id) VALUES(".$usuario_id.", ".$gasolinera_id.", ".$mensaje_id.")";
                 if (mysqli_query($conn, $sql)) {
                     echo "<script>console.log('El mensajes_usuarios se ha guardado correctamente.');</script>";
+                    header("Location: ./detalle_gasolinera.php");
                 }
                 else {
                     echo "<script>console.log('Error al guardar el mensajes_usuarios: " . mysqli_error($conn). "');</script>";
