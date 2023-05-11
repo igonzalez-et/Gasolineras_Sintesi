@@ -358,9 +358,10 @@ button.ghost {
     font-weight: bold;
     text-transform: uppercase;
 }
-  
+
 .nav-menu li {
     margin: 0 10px;
+    position: relative;
 }
 
 .nav-menu li a {
@@ -369,10 +370,24 @@ button.ghost {
     color: #fff;
     text-decoration: none;
     transition: background-color 0.2s ease-in-out;
+    position: relative;
+    z-index: 1;
 }
 
-.nav-menu li a:hover {
+.nav-menu li a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
     background-color: rgba(255, 238, 0, 0.5);
+    transition: width 0.3s ease-in-out;
+}
+
+.nav-menu li a:hover::before {
+    width: 100%;
+    transition: width 0.3s ease-in-out;
 }
 
 .nav-menu-logo {
@@ -604,6 +619,7 @@ button.ghost {
 .gasolineras h1 {
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 25px;
 }
 
 .listagasolineras {
@@ -697,13 +713,14 @@ button.ghost {
 }
 
 .filtros {
-    margin: 20px 0;
-    padding: 12px;
+    margin: 5px 0;
+	padding: 5px 30px;
+    width: 80%;
 }
 
 .filtros form {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     height: auto;
 }
 
@@ -721,9 +738,16 @@ button.ghost {
     border-radius: 5px;
 }
 
+#contenedorSubmitFiltros  {
+    position: relative;
+}
+
 .filtros input[type="submit"] {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
     border-radius: 5px;
-    padding: 0 10px;
+    padding: 10px 20px;
     background-color: #0B3D91;
     color: #fff;
     border: none;
@@ -785,18 +809,33 @@ button.ghost {
     margin-right: 15%;
     font-weight: bold;
     height: 25%;
+    font-size: 23px;
 }
 
 #pFavoritas {
     text-align: center;
+    letter-spacing: 3px;
+}
+
+#pFavoritas i {
+    color: gold;
 }
 
 .descripcionPerfil a {
     text-decoration: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: #000;
     padding: 10px;
     background-color: #DDDDDD;
     border-radius: 3px;
+    font-size: 15px;
+}
+
+.descripcionPerfil a i {
+    margin-right: 3px;
 }
 
 /* DETALLES GASOLINERA */
@@ -861,8 +900,6 @@ button.ghost {
 			0px 7px 10px #000;
 }
 
-
-
 .contenedorMensajes {
     width: 60vw;
     margin: auto;
@@ -872,6 +909,10 @@ button.ghost {
     margin: 50px auto;
     overflow: hidden;
     word-wrap: break-word;
+}
+
+.contenedorComentarioUsuario {
+    margin-bottom: 15px;
 }
 
 #mensajeUsuario {
@@ -907,6 +948,14 @@ button.ghost {
 
 .comment-text {
     margin: 0;
+}
+
+.button-link {
+    background-color: transparent;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 /* Configuración */

@@ -113,8 +113,10 @@
                             }
                         ?>
                     </select>
-                </div><br>
-                <input type="submit" value="Filtrar">
+                </div>
+                <div id="contenedorSubmitFiltros">
+                    <input type="submit" value="Filtrar">
+                </div>
             </form>
         </div>
         

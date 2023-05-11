@@ -68,7 +68,7 @@
         <div class="descripcionPerfil">
             <?php
                 echo "<p>".$nombre."</p>";
-                echo "<p id='pFavoritas'> Favoritas <br>".$favoritas."</p>";
+                echo "<p id='pFavoritas'>".$favoritas."<i class='fa fa-star'></i></p>";
                 if($local) {
                     echo "<a href='./configuracion.php'><i class='fa fa-cog' aria-hidden='true'></i> Configuración</a>";
                 }

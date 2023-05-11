@@ -145,11 +145,13 @@
                                 $result = mysqli_query($conn, $sql);
                                 if (mysqli_num_rows($result) > 0) {
                                     while($row = mysqli_fetch_assoc($result)) {
+                                        echo "<div class='contenedorComentarioUsuario' id='contenedorComentarioUsuario".$row['id']."'>";
                                         $usuario = $row["usuario_id"];
                                         $sql2 = "SELECT * FROM usuarios where id = ".$usuario.";";
                                         $result2 = mysqli_query($conn, $sql2);
                                         if (mysqli_num_rows($result2) > 0) {
                                             while($row2 = mysqli_fetch_assoc($result2)) {
+                                                $correoLocal = $row2['correo'];
                                                 $mostrarMensaje = "<p class='user-name'><img src='./perfiles/foto/". $row2["foto"] ."' alt='Foto de perfil de usuario'> ". $row2["nombre"] . " - " ;
                                             }
                                         }
@@ -183,8 +185,13 @@
                                             $tiempo_relativo = "Hace " . $cantidad . " años";
                                         }
         
-                                        $mostrarMensaje .= $tiempo_relativo . "</p><p class='comment-text'>" . $row["mensaje"]."</p> <br>";
+                                        $mostrarMensaje .= $tiempo_relativo . "</p><p class='comment-text' id='comment-".$row['id']."'>" . $row["mensaje"]."</p>";
+                                        
+                                        if($correoLocal == $_SESSION["correo"]) {
+                                            $mostrarMensaje .= "<button class='button-link edit-button' data-comment-id='".$row['id']."'>Editar</button> <button class='button-link delete-button' data-comment-id='".$row['id']."'>Eliminar</button><br>";
+                                        }
                                         echo $mostrarMensaje;
+                                        echo "</div>";
                                     }
                                 }
                             }
@@ -194,6 +201,7 @@
 
                 
             ?>
+            
         </div>
     </div>
 
@@ -231,5 +239,73 @@
         }
         mysqli_close($conn);
     ?>
+
+    <script>
+        $(document).ready(function() {
+            // función que se ejecuta al hacer clic en el botón de edición
+            $(document).on('click', '.edit-button', function() {
+                // obtener el id del comentario y el texto actual del párrafo
+                var commentId = $(this).data('comment-id');
+                var commentText = $('#comment-'+commentId).text();
+                
+                // reemplazar el párrafo con un campo de texto para editar
+                var inputHtml = '<input type="text" id="edit-comment-'+commentId+'" value="'+commentText+'">';
+                $('#comment-'+commentId).replaceWith(inputHtml);
+                
+                // cambiar el botón de edición por un botón de guardar
+                $(this).text('Guardar').removeClass('edit-button').addClass('save-button');
+            });
+
+            // función que se ejecuta al hacer clic en el botón de guardar
+            $(document).on('click', '.save-button', function() {
+                // obtener el id del comentario y el nuevo texto del campo de texto
+                var commentId = $(this).data('comment-id');
+                var newCommentText = $('#edit-comment-'+commentId).val();
+                
+                // hacer una llamada AJAX al servidor para guardar el nuevo mensaje
+                $.ajax({
+                    type: 'POST',
+                    url: 'guardar_comentario.php',
+                    data: {
+                        commentId: commentId,
+                        newCommentText: newCommentText
+                    },
+                    success: function(response) {
+                        // reemplazar el campo de texto con el nuevo párrafo
+                        var newHtml = '<p class="comment-text" id="comment-'+commentId+'">'+newCommentText+'</p>';
+                        $('#edit-comment-'+commentId).replaceWith(newHtml);
+                        
+                        // cambiar el botón de guardar por el botón de edición
+                        $('.save-button').text('Editar').removeClass('save-button').addClass('edit-button');
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            // función que se ejecuta al hacer clic en el botón de eliminar
+            $('.delete-button').on('click', function() {
+                // obtener el id del comentario
+                var commentId = $(this).data('comment-id');
+                
+                // mostrar un mensaje de confirmación
+                if (confirm('¿Está seguro de que desea eliminar este comentario?')) {
+                    // hacer una llamada AJAX al servidor para eliminar el comentario
+                    $.ajax({
+                        type: 'POST',
+                        url: 'eliminar_comentario.php',
+                        data: {
+                            commentId: commentId
+                        },
+                        success: function(response) {
+                            // eliminar el comentario del DOM
+                            $('#contenedorComentarioUsuario'+commentId).remove();
+
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
