@@ -152,7 +152,13 @@
                                         if (mysqli_num_rows($result2) > 0) {
                                             while($row2 = mysqli_fetch_assoc($result2)) {
                                                 $correoLocal = $row2['correo'];
-                                                $mostrarMensaje = "<p class='user-name'><img src='./perfiles/foto/". $row2["foto"] ."' alt='Foto de perfil de usuario'> ". $row2["nombre"] . " - " ;
+                                                if($row2['foto']) {
+                                                    $mostrarMensaje = "<p class='user-name'><img src='./perfiles/foto/". $row2["foto"] ."' alt='Foto de perfil de usuario'> ";
+                                                }
+                                                else {
+                                                    $mostrarMensaje = "<p class='user-name'><img src='./perfiles/foto/default.png' alt='Foto de perfil de usuario'> ";
+                                                }
+                                                $mostrarMensaje .= $row2["nombre"] . " - " ;
                                             }
                                         }
         
