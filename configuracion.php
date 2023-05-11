@@ -130,7 +130,7 @@
             <input type="submit" value="Cambiar imagen" id="btnGuardar" style="display:none;">
         </form>
 
-        <form method="post" action="">
+        <form id="formConfig" method="post" action="">
 
             <label for="nuevo_nombre">Nombre de usuario:</label>
             <input type="text" name="nuevo_nombre" value="<?php echo $nombre; ?>"><br>

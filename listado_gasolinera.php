@@ -28,71 +28,92 @@
 
         <div class="filtros">
             <form method="GET">
-                <label for="Rótulo">Rótulo:</label>
-                <select name="Rótulo">
-                    <option value="Cualquiera">Cualquiera</option>
-                    <?php
-                        $sql = "select Rótulo from gasolineras group by Rótulo;";
-                        $result = mysqli_query($conn, $sql);
-                        if (mysqli_num_rows($result) > 0) {
-                            while($row = mysqli_fetch_assoc($result)) {
-                                if(strtoupper($_GET["Rótulo"]) == $row["Rótulo"]) {
-                                    echo "<option value=\"$row[Rótulo]\" selected>$row[Rótulo]</option>\n";
-                                }
-                                else {
-                                    echo "<option value=\"$row[Rótulo]\">$row[Rótulo]</option>\n";
-                                }
-                            }
-                        }
-                    ?>
-                </select>
-                <label for="Provincia">Provincia:</label>
-                <select name="Provincia">
-                    <option value="Cualquiera">Cualquiera</option>
-                    <?php
-                        $conn = conectarBDD();
-                        $sql = "select Provincia from gasolineras group by Provincia;";
-                        $result = mysqli_query($conn, $sql);
-                        if (mysqli_num_rows($result) > 0) {
-                            while($row = mysqli_fetch_assoc($result)) {
-                                if(strtoupper($_GET["Provincia"]) == $row["Provincia"]) {
-                                    echo "<option value=\"$row[Provincia]\" selected>$row[Provincia]</option>\n";
-                                }
-                                else {
-                                    echo "<option value=\"$row[Provincia]\">$row[Provincia]</option>\n";
-                                }
-                            }
-                        }
-                    ?>
-                </select>
-                <label for="Gasolina">Tipo de Gasolina:</label>
-                <select name="Gasolina">
-                    <option value="Cualquiera">Cualquiera</option>
-                    <?php
-                        $conn = conectarBDD();
-                        $sql = "SELECT COUNT(*) - 2 as contador FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'precios_gasolinera'";
-                        $result = mysqli_query($conn, $sql);
-                        if (mysqli_num_rows($result) > 0) {
-                            while($row = mysqli_fetch_assoc($result)) {
-                                $columnas = $row["contador"];
-                            }
-                        }
-                        $sql = "select column_name as columnas FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'precios_gasolinera' limit ".$columnas.";";
-                        $result = mysqli_query($conn, $sql);
-                        if (mysqli_num_rows($result) > 0) {
-                            while($row = mysqli_fetch_assoc($result)) {
-                                if($row['columnas'] != 'gasolinera_id') {
-                                    if(strtoupper($_GET["Gasolina"]) == strtoupper($row["columnas"])) {
-                                        echo "<option value=\"$row[columnas]\" selected>$row[columnas]</option>\n";
+                <div>
+                    <label for="Rótulo">Rótulo:</label><br>
+                    <select name="Rótulo">
+                        <option value="Cualquiera">Cualquiera</option>
+                        <?php
+                            $sql = "select Rótulo from gasolineras group by Rótulo;";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    if(isset($_GET["Rótulo"])) {
+                                        if(strtoupper($_GET["Rótulo"]) == $row["Rótulo"]) {
+                                            echo "<option value=\"$row[Rótulo]\" selected>$row[Rótulo]</option>\n";
+                                        }
+                                        else {
+                                            echo "<option value=\"$row[Rótulo]\">$row[Rótulo]</option>\n";
+                                        }
                                     }
                                     else {
-                                        echo "<option value=\"$row[columnas]\">$row[columnas]</option>\n";
+                                        echo "<option value=\"$row[Rótulo]\">$row[Rótulo]</option>\n";
                                     }
                                 }
                             }
-                        }
-                    ?>
-                </select>
+                        ?>
+                    </select>
+                </div>
+                <div>
+                    <label for="Provincia">Provincia:</label><br>
+                    <select name="Provincia">
+                        <option value="Cualquiera">Cualquiera</option>
+                        <?php
+                            $conn = conectarBDD();
+                            $sql = "select Provincia from gasolineras group by Provincia;";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    if(isset($_GET["Provincia"])) {
+                                        if(strtoupper($_GET["Provincia"]) == $row["Provincia"]) {
+                                            echo "<option value=\"$row[Provincia]\" selected>$row[Provincia]</option>\n";
+                                        }
+                                        else {
+                                            echo "<option value=\"$row[Provincia]\">$row[Provincia]</option>\n";
+                                        }
+                                    }
+                                    else {
+                                        echo "<option value=\"$row[Provincia]\">$row[Provincia]</option>\n";
+                                    }
+                                }
+                            }
+                        ?>
+                    </select>
+                </div>
+                <div>
+                    <label for="Gasolina">Tipo de Gasolina:</label><br>
+                    <select name="Gasolina">
+                        <option value="Cualquiera">Cualquiera</option>
+                        <?php
+                            $conn = conectarBDD();
+                            $sql = "SELECT COUNT(*) - 2 as contador FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'precios_gasolinera'";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    $columnas = $row["contador"];
+                                }
+                            }
+                            $sql = "select column_name as columnas FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'precios_gasolinera' limit ".$columnas.";";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while($row = mysqli_fetch_assoc($result)) {
+                                    if($row['columnas'] != 'gasolinera_id') {
+                                        if(isset($_GET["Gasolina"])) {
+                                            if(strtoupper($_GET["Gasolina"]) == strtoupper($row["columnas"])) {
+                                                echo "<option value=\"$row[columnas]\" selected>$row[columnas]</option>\n";
+                                            }
+                                            else {
+                                                echo "<option value=\"$row[columnas]\">$row[columnas]</option>\n";
+                                            }
+                                        }
+                                        else {
+                                            echo "<option value=\"$row[columnas]\">$row[columnas]</option>\n";
+                                        }
+                                    }
+                                }
+                            }
+                        ?>
+                    </select>
+                </div><br>
                 <input type="submit" value="Filtrar">
             </form>
         </div>
@@ -173,9 +194,9 @@
                         $result2 = mysqli_query($conn, $sql2);
                         $row2 = mysqli_fetch_assoc($result2);
                         if($row2["contador"] == 0) {
-                            $strFavorito = '<input type="submit" name="marcar_favorito" id="botonMarcar'.$row["id"].'" class="botonMarcar" value="Marcar Favorito">';
+                            $strFavorito = '<button type="submit" name="marcar_favorito" id="botonMarcar'.$row["id"].'" class="botonMarcar" value="Marcar Favorito"> <i class="fa fa-star-o"></i></button>';
                         }else {
-                            $strFavorito = '<input type="submit" name="marcar_favorito" id="botonMarcar'.$row["id"].'" class="botonMarcar favorito" value="Marcar Favorito">';
+                            $strFavorito = '<button type="submit" name="marcar_favorito" id="botonMarcar'.$row["id"].'" class="botonMarcar favorito" value="Marcar Favorito"> <i class="fa fa-star"></i></button>';
                         }
                         echo 
                         "<li>CP: " . $row["CP"] . " - Dirección: " . $row["Dirección"] . " - Provincia: " . $row["Provincia"] . " - Rótulo: " . $row["Rótulo"] . " - Municipio: " . $row["Municipio"] .

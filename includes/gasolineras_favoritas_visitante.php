@@ -19,9 +19,9 @@
                         $result2 = mysqli_query($conn, $sql2);
                         $row2 = mysqli_fetch_assoc($result2);
                         if($row2["contador"] == 0) {
-                            $strFavorito = '<input type="submit" name="marcar_favorito" id="botonMarcar'.$row["id"].'" class="botonMarcar botonFavoritoVisitante" value="Marcar Favorito">';
+                            $strFavorito = '<button type="submit" name="marcar_favorito" id="botonMarcar'.$row["id"].'" class="botonFavoritoVisitante" value="Marcar Favorito"> <i class="fa fa-star-o"></i></button>';
                         }else {
-                            $strFavorito = '<input type="submit" name="marcar_favorito" id="botonMarcar'.$row["id"].'" class="botonMarcar botonFavoritoVisitante favorito" value="Marcar Favorito">';
+                            $strFavorito = '<button type="submit" name="marcar_favorito" id="botonMarcar'.$row["id"].'" class="botonFavoritoVisitante favorito" value="Marcar Favorito"> <i class="fa fa-star"></i></button>';
                         }
 
                         echo 

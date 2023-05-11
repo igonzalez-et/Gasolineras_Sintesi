@@ -9,12 +9,16 @@ function submitFormFavorito(id) {
             // console.log(xhr.responseText);
             console.log(id);
             var boton = $("#botonMarcar" + id);
-
+            var icono = $("#botonMarcar" + id + " i");
             if (boton.hasClass('favorito')) {
                 boton.removeClass('favorito');
+                icono.removeClass('fa fa-star');
+                icono.addClass('fa fa-star-o');
                 llamarFuncionPHP(id);
             } else {
+                icono.removeClass('fa fa-star-o');
                 boton.addClass('favorito');
+                icono.addClass('fa fa-star');
                 llamarFuncionPHP(id);
             }
         } else {
