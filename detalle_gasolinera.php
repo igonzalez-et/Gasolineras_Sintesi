@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/700997539d.js" crossorigin="anonymous"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./scripts.js"></script>
@@ -255,7 +256,8 @@
                 var commentText = $('#comment-'+commentId).text();
                 
                 // reemplazar el párrafo con un campo de texto para editar
-                var inputHtml = '<input type="text" id="edit-comment-'+commentId+'" value="'+commentText+'">';
+
+                var inputHtml = '<textarea type="text" class="edit-comment" id="edit-comment-'+commentId+'" maxlength="512">'+commentText+'</textarea>';
                 $('#comment-'+commentId).replaceWith(inputHtml);
                 
                 // cambiar el botón de edición por un botón de guardar

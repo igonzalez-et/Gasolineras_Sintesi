@@ -111,3 +111,13 @@ $(document).ready(function() {
   }
   
 });
+
+
+// Mensajes CSS
+$(document).ready(function(){
+  if($(".message")) {
+      setTimeout(() => {
+          $(".message").remove();
+      }, 3000);
+  }
+});

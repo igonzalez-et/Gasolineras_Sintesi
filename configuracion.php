@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/700997539d.js" crossorigin="anonymous"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./utilities.js"></script>
@@ -47,18 +48,23 @@
             $errores = array();
             if (empty($nuevo_nombre)) {
                 $errores[] = "El nombre es requerido.";
+                showMessage('warning', 'El nombre es requerido.', './configuracion.php');
             }
             if (empty($nuevo_correo)) {
                 $errores[] = "El correo electrónico es requerido.";
+                showMessage('warning', 'El correo electrónico es requerido.', './configuracion.php');
             }
             if (!filter_var($nuevo_correo, FILTER_VALIDATE_EMAIL)) {
                 $errores[] = "El correo electrónico no es válido.";
+                showMessage('error', 'El correo electrónico no es válido.', './configuracion.php');
             }
             if (!empty($nueva_contrasena) && ($nueva_contrasena != $confirmar_contrasena) || empty($nueva_contrasena || empty($confirmar_contrasena))) {
                 $errores[] = "Las contraseñas no coinciden.";
+                showMessage('error', 'Las contraseñas no coinciden.', './configuracion.php');
             }
             if (password_verify($nueva_contrasena, $hashed_password)) {
                 $errores[] = "No puedes poner la misma contraseña.";
+                showMessage('warning', 'No puedes poner la misma contraseña.', './configuracion.php');
             }
 
 
@@ -84,6 +90,7 @@
 
                 // Ejecutar la consulta SQL
                 mysqli_query($conn, $query);
+                showMessage('success', 'Se han actualizado los datos correctamente.', './perfil.php?usuario='.$nuevo_nombre.'');
 
                 // Cerrar la conexión a la base de datos
                 mysqli_close($conn);
@@ -91,11 +98,7 @@
                 // Redirigir al usuario a la página de perfil
                 header("Location: perfil.php?usuario=".$nombre."");
             }
-            else {
-                foreach ($errores as $error) {
-                    echo $error."<br>";
-                }
-            }
+
         }
     ?>
 

@@ -8,7 +8,10 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/700997539d.js" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body id="bodyLogin">
 
     <?php
@@ -31,6 +34,7 @@
                 <input class="input-login" type="email" name="emailReg" placeholder="Email" />
                 <input class="input-login" type="password" name="passReg" placeholder="Password" />
                 <button class="btnUp button-login">Crear cuenta</button>
+                <a href="../index.php">Continuar sin iniciar sesión</a>
             </form>
         </div>
         <div class="form-container sign-in-container">
@@ -46,6 +50,7 @@
                 <input class="input-login" type="password" name="passLog" placeholder="Password" />
                 <a href="#" class="a-login">Has olvidado la contraseña?</a>
                 <button class="btnIn button-login">Iniciar Sesión</button>
+                <a href="../index.php">Continuar sin iniciar sesión</a>
             </form>
         </div>
         <div class="overlay-container">
@@ -77,9 +82,30 @@
 
             // Insertar datos en la tabla "usuarios"
             if($nameReg) {
-                $stmt = $conn->prepare("INSERT INTO usuarios (nombre, correo, contraseña) VALUES (?, ?, ?)");
-                $stmt->bind_param("sss", $nameReg, $emailReg, $hashed_password_register);
-                $stmt->execute();
+                $sqlQuery = "SELECT count(*) as contador FROM usuarios WHERE nombre='".$nameReg."';";
+                $result = mysqli_query($conn, $sqlQuery);
+
+                if (mysqli_num_rows($result) > 0) {
+                    $row = mysqli_fetch_array($result);
+                    $sqlQuery2 = "SELECT count(*) as contador2 FROM usuarios WHERE correo='".$emailReg."';";
+                    $result2 = mysqli_query($conn, $sqlQuery2);
+
+                    if (mysqli_num_rows($result2) > 0) {
+                        $row2 = mysqli_fetch_array($result2);
+
+                        if($row['contador'] == 0 && $row2['contador2'] == 0) {
+                            $stmt = $conn->prepare("INSERT INTO usuarios (nombre, correo, contraseña) VALUES (?, ?, ?)");
+                            $stmt->bind_param("sss", $nameReg, $emailReg, $hashed_password_register);
+                            $stmt->execute();
+
+                            showMessage('success', 'Usuario registrado correctamente.', './login.php');
+                        }
+                        else {
+                            showMessage('error', 'Ya existe alguien con ese nombre de usuario o correo.', './login.php');
+                        }
+                    }
+                    
+                }
             }
         }
         
@@ -102,19 +128,22 @@
                         $_SESSION["correo"] = $emailLog;
                         header('Location: ./index.php');
                     } else {
-                        echo "Contraseña incorrecta.";
+                        showMessage('error', 'Correo electrónico o contraseña incorrecta.', './login.php');
                     }
                 } else {
-                    echo "No existe este usuario.";
+                    showMessage('error', 'Correo electrónico o contraseña incorrecta.', './login.php');
                 }
             }
         }
 
         $conn->close();
+
     ?>
 
-
     <script src="scripts.js"></script>
+    <script>
+        localStorage.removeItem('ubicacionAceptada');
+    </script>
 </body>
 </html>
 

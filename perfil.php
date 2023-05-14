@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/700997539d.js" crossorigin="anonymous"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./utilities.js"></script>
@@ -86,7 +87,7 @@
                 include("./includes/gasolineras_favoritas_visitante.php");
             }
             else {
-                echo "Este usuario es privado.";
+                include("./includes/usuario_privado.php");
             }
 
             // Añadir el usuario buscado al array

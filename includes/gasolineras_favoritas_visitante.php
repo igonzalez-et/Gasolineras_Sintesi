@@ -41,7 +41,7 @@
                     
                     
                 } else {
-                    echo "No tiene ninguna gasolinera en favoritos.";
+                    include("includes/no_favoritas_visitante.php");
                 }
             ?>
         </ul>
