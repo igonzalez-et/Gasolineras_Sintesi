@@ -48,7 +48,6 @@ $(document).ready(function() {
                 $('.header-fixed').removeClass('header-logo');
                 $('.logo').removeClass('logo-small');
                 $('.nav-menu').removeClass('nav-menu-logo');
-                alert(currentSection);
               }
               
               // Poner animacion al scroll up
@@ -113,3 +112,12 @@ $(document).ready(function() {
   
 });
 
+
+// Mensajes CSS
+$(document).ready(function(){
+  if($(".message")) {
+      setTimeout(() => {
+          $(".message").remove();
+      }, 3000);
+  }
+});
