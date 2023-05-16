@@ -29,6 +29,8 @@
         $sqlDrop2 = "DROP TABLE IF EXISTS precios_gasolinera";
         $sqlDrop3 = "DROP TABLE IF EXISTS favoritos_gasolinera";
         $sqlDrop4 = "DROP TABLE IF EXISTS mensajes_usuarios";
+        $sqlDrop5 = "DROP TABLE IF EXISTS mensajes;";
+        $sqlDrop6 = "DROP TABLE IF EXISTS usuarios;";
 
         if (mysqli_query($conn, $sqlDrop4)) {
             echo "La tabla mensajes_usuarios ha sido eliminada correctamente";
@@ -47,6 +49,19 @@
         } else {
             echo "Error al crear la tabla: " . mysqli_error($conn);
         }
+
+        if (mysqli_query($conn, $sqlDrop5)) {
+            echo "La tabla mensajes ha sido eliminada correctamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
+
+        if (mysqli_query($conn, $sqlDrop6)) {
+            echo "La tabla usuarios ha sido eliminada correctamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
+
         if (mysqli_query($conn, $sqlDrop)) {
             echo "La tabla gasolineras ha sido eliminada correctamente";
         } else {
@@ -91,6 +106,58 @@
             echo "Error al crear la tabla: " . mysqli_error($conn);
         }
 
+        $sqlUsuarios = "CREATE TABLE `usuarios` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `nombre` varchar(255) NOT NULL,
+            `correo` varchar(255) NOT NULL,
+            `contraseña` varchar(255) NOT NULL,
+            `foto` varchar(255) DEFAULT 'default.png',
+            `privacidad` varchar(7) DEFAULT 'publico',
+            PRIMARY KEY (`id`),
+            UNIQUE KEY `unique_nombre` (`nombre`),
+            UNIQUE KEY `unique_correo` (`correo`)
+        )";
+
+        echo $sqlUsuarios;
+        if (mysqli_query($conn, $sqlUsuarios)) {
+            echo "La tabla usuarios ha sido creada exitosamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
+
+        $sqlMensajes = "create table `mensajes` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `mensaje` varchar(512) NOT NULL,
+            `fecha` DATETIME NOT NULL,
+            PRIMARY KEY (`id`)
+        )";
+
+        echo $sqlMensajes;
+        if (mysqli_query($conn, $sqlMensajes)) {
+            echo "La tabla mensajes ha sido creada exitosamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
+
+        $sqlMensajesUsuarios = "create table `mensajes_usuarios` (
+            `usuario_id` int DEFAULT NULL,
+            `gasolinera_id` int DEFAULT NULL,
+            `mensaje_id` int DEFAULT NULL,
+             KEY `usuario_id` (`usuario_id`),
+             KEY `gasolinera_id` (`gasolinera_id`),
+             KEY `mensaje_id` (`mensaje_id`),
+             CONSTRAINT `mensajes_usuarios_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
+             CONSTRAINT `mensajes_usuarios_ibfk_2` FOREIGN KEY (`gasolinera_id`) REFERENCES `gasolineras` (`id`),
+             CONSTRAINT `mensajes_usuarios_ibfk_3` FOREIGN KEY (`mensaje_id`) REFERENCES `mensajes` (`id`)
+        )";
+
+        echo $sqlMensajesUsuarios;
+        if (mysqli_query($conn, $sqlMensajesUsuarios)) {
+            echo "La tabla mensajes_usuarios ha sido creada exitosamente";
+        } else {
+            echo "Error al crear la tabla: " . mysqli_error($conn);
+        }
+
         $sqlFavoritos = "CREATE TABLE `favoritos_gasolinera` (
             `usuario_id` int DEFAULT NULL,
             `gasolinera_id` int DEFAULT NULL,
@@ -98,7 +165,7 @@
             KEY `gasolinera_id` (`gasolinera_id`),
             CONSTRAINT `favoritos_gasolinera_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
             CONSTRAINT `favoritos_gasolinera_ibfk_2` FOREIGN KEY (`gasolinera_id`) REFERENCES `gasolineras` (`id`)
-        )";
+          )";
 
         echo $sqlFavoritos;
         if (mysqli_query($conn, $sqlFavoritos)) {
@@ -106,6 +173,8 @@
         } else {
             echo "Error al crear la tabla: " . mysqli_error($conn);
         }
+
+
 
         // Recorremos los datos de la API
         foreach ($json['ListaEESSPrecio'] as $gasolinera) {
