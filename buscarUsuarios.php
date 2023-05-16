@@ -5,12 +5,12 @@
 
     $nombre = $_POST['nombre'];
 
-    echo "<table>";
     if($_POST['nombre'] != "") {
         $sql = "SELECT * FROM usuarios WHERE nombre LIKE '%$nombre%' and correo != '".$_SESSION['correo']."';";
         $resultado = mysqli_query($conn, $sql);
     
         if (mysqli_num_rows($resultado) > 0) {
+            echo "<table>";
             echo "<tr><th>Resultados búsqueda</th></tr>";
             while ($row = mysqli_fetch_assoc($resultado)) {
                 $foto = $row['foto'];
@@ -26,11 +26,12 @@
             }
             
         } else {
-            echo "No se encontraron resultados.";
+            echo "<div class='contenedorLoginNoSesion'><h2>No se encontraron resultados</h2></div>";
         }
     }
     else {
         if(isset($_SESSION['arrayRecientes']) && count($_SESSION['arrayRecientes']) > 0) {
+            echo "<table>";
             echo "<tr><th>Búsquedas recientes</th></tr>";
             
             foreach ($_SESSION['arrayRecientes'] as $reciente) {

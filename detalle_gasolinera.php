@@ -129,7 +129,7 @@
     </div>
     <div class="contenedorMensajes">
         <h2>Comentarios: </h2><br>
-        <form method="post">
+        <form method="post" action="./refrescar_detalles.php">
             <label for="mensaje">Ingrese su mensaje (máximo 512 caracteres):</label><br>
             <textarea id="mensajeUsuario" name="mensaje" maxlength="512"></textarea><br>
             <input id="enviarComentario" type="submit" value="Enviar comentario">
@@ -211,41 +211,6 @@
             
         </div>
     </div>
-
-    <?php
-        if(isset($_POST["mensaje"]) && !empty($_POST["mensaje"])) {
-            $mensaje = $_POST["mensaje"];
-
-            $sql = "INSERT INTO mensajes(mensaje, fecha) VALUES('".$mensaje."', current_timestamp())";
-            if (mysqli_query($conn, $sql)) {
-                echo "<script>console.log('El mensaje se ha guardado correctamente.');</script>";
-                $gasolinera_id = $_SESSION["gasolinera"];
-
-                $sql = "SELECT * from mensajes where mensaje='".$mensaje."' ORDER BY id DESC LIMIT 1;";
-                $result = mysqli_query($conn, $sql);
-                if (mysqli_num_rows($result) > 0) {
-                    while($row = mysqli_fetch_assoc($result)) {
-                        $mensaje_id = $row["id"];
-                    }
-                }
-
-                $sql = "INSERT INTO mensajes_usuarios(usuario_id, gasolinera_id, mensaje_id) VALUES(".$usuario_id.", ".$gasolinera_id.", ".$mensaje_id.")";
-                if (mysqli_query($conn, $sql)) {
-                    echo "<script>console.log('El mensajes_usuarios se ha guardado correctamente.');</script>";
-                    header("Location: ./detalle_gasolinera.php");
-                }
-                else {
-                    echo "<script>console.log('Error al guardar el mensajes_usuarios: " . mysqli_error($conn). "');</script>";
-                }
-
-
-            } else {
-                echo "<script>console.log('Error al guardar el mensaje: " . mysqli_error($conn). "');</script>";
-            }
-
-        }
-        mysqli_close($conn);
-    ?>
 
     <script>
         $(document).ready(function() {

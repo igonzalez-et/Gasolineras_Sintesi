@@ -26,7 +26,11 @@
             foreach ($json['ListaEESSPrecio'] as $gasolinera) {
                 $countGasolinera += 1;
                 $stringTotalPrecio = "";
-                foreach ($gasolinera as $key => $datos) {
+                foreach ($gasolinera as $key => $datos) {       
+                    if($key == "Dirección") {
+                        $direccion = $datos;
+                    }
+                    
                     $subs = substr($key,0,6);
                     if($subs == "Precio"){
                         if($datos != ""){
@@ -52,15 +56,18 @@
                     }
                 }
                 $stringColumnsPrecio = substr($stringColumnsPrecio, 0, -1);
-                
+                // echo $direccion."<br>";
                 // Consulta a la base de datos
-                $sqlQuery = "SELECT * FROM gasolineras where id = ".$countGasolinera;
+                $direccion_escapada = mysqli_real_escape_string($conn, $direccion);
+                $sqlQuery = "SELECT *, count(*) as existe FROM gasolineras where Dirección = '".$direccion_escapada."';";
                 $result = mysqli_query($conn, $sqlQuery);
 
                 // Itera sobre los resultados de la consulta y agrega los datos a la lista HTML
                 if (mysqli_num_rows($result) > 0) {
                     while($row = mysqli_fetch_assoc($result)) {
-                        $sqlQuery2 = "INSERT INTO precios_gasolinera(".$stringColumnsPrecio.",gasolinera_id,ultima_actualizacion) VALUES(".$stringTotalPrecio.",".$row['id'].",current_timestamp());";
+                        if($row['existe'] != 0) {
+                            $sqlQuery2 = "INSERT INTO precios_gasolinera(".$stringColumnsPrecio.",gasolinera_id,ultima_actualizacion) VALUES(".$stringTotalPrecio.",".$row['id'].",current_timestamp());";
+                        }
                     }
                     if (mysqli_query($conn, $sqlQuery2)) {
                         echo $sqlQuery2;

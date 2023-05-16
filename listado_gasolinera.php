@@ -46,7 +46,7 @@
         else {
             include("./includes/no_sesion.php");
         }
+
     ?>
-    
 </body>
 </html>

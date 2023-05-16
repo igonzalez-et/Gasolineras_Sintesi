@@ -7,6 +7,10 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 #bodyLogin {
     background: #F2F2F2;
     color: #000;
@@ -548,7 +552,7 @@ button.ghost {
     height: 75%;
     width: 80%;
     top: 18%;
-    padding: 15px;
+    padding: 50px;
     font-size: 14px;
     border-radius: 30px;
     background-color: rgba(255, 255, 255,0.4);
@@ -583,6 +587,29 @@ button.ghost {
     margin: 20px 0;
 }
 
+.tarjeta .content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tarjeta .content p {
+    margin-bottom: 10px;
+}
+
+.tarjeta .text {
+    flex: 1;
+    margin-right: 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.tarjeta .image {
+    max-width: 100%;
+    width: 400px; /* Ajusta el tamaño de la imagen según sea necesario */
+    margin-left: auto; 
+}
+
 .tarjeta .actButton {
     display: flex;
     justify-content: center;
@@ -602,6 +629,7 @@ button.ghost {
     box-shadow: 0px 3px 5px rgba(255, 238, 0, 0.5), 
 			0px 7px 10px #000;
 }
+
 
 
 /* LISTADO DE LAS GASOLINERAS */
@@ -1424,3 +1452,71 @@ td {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* Estilos generales del footer */
+footer {
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+    color: #000;
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .footer-logo img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .footer-logo h2 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-links ul li {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .footer-links ul li a {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .footer-social ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-social ul li {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .footer-social ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 20px;
+  }
+  
+  /* Estilos para el mensaje de derechos de autor */
+  .footer-bottom {
+    margin-top: 20px;
+  }
+  
+  .footer-bottom p {
+    color: #888;
+    font-size: 14px;
+  }
