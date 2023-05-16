@@ -1316,6 +1316,56 @@ td {
 
 #bodyCalculadora {
     background: linear-gradient(to right, #0B3D91, #add8e6);
+    color: #add8e6;
+    font-family: Arial, sans-serif;
+}
+
+#bodyCalculadora h1 {
+    margin-top: 60px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #333;
+}
+
+#bodyCalculadora form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#bodyCalculadora label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#bodyCalculadora input[type="number"], input[type="button"] {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+#bodyCalculadora input[type="button"] {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#bodyCalculadora input[type="button"]:hover {
+    background-color: #3e8e41;
+}
+
+#bodyCalculadora input[type="number"][disabled] {
+    background-color: #f5f5f5;
+    color: #333;
+    cursor: default;
 }
 
 
@@ -1344,6 +1394,13 @@ td {
 
 .message p {
     margin-bottom: 0;
+}
+
+.message-icon {
+    display: inline-block;
+}
+.message-icon h3 {
+    display: inline-block;
 }
 
 .message.success {

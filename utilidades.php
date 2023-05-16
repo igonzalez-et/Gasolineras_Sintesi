@@ -49,15 +49,59 @@
     }
 
     function showMessage($type, $text, $location) {
-        $_SESSION[$type.'_message'] = '<div class="message '.$type.' show">
+        if($type == "success") {
+            $_SESSION[$type.'_message'] = '<div class="message '.$type.' show">
             <div class="message-icon">
-                <i class="fas fa-exclamation-triangle"></i>
+                <i class="fa fa-check-circle"></i>
+                <h3>¡EXITO!</h3>
+                <i class="fa fa-check-circle"></i>
             </div>
             <div class="message-text">
-                <h3>'.ucfirst($type).'!</h3>
+                
                 <p>'.$text.'</p>
             </div>
-        </div>';
+            </div>';
+        }
+        else if($type == "error") {
+            $_SESSION[$type.'_message'] = '<div class="message '.$type.' show">
+            <div class="message-icon">
+                <i class="fa fa-times-circle"></i>
+                <h3>¡ERROR!</h3>
+                <i class="fa fa-times-circle"></i>
+            </div>
+            <div class="message-text">
+                
+                <p>'.$text.'</p>
+            </div>
+            </div>';
+        }
+        else if($type == "warning") {
+            $_SESSION[$type.'_message'] = '<div class="message '.$type.' show">
+            <div class="message-icon">
+                <i class="fa fa-exclamation-circle"></i>
+                <h3>¡VIGILA!</h3>
+                <i class="fa fa-exclamation-circle"></i>
+            </div>
+            <div class="message-text">
+                
+                <p>'.$text.'</p>
+            </div>
+            </div>';
+        }
+        else if($type == "info") {
+            $_SESSION[$type.'_message'] = '<div class="message '.$type.' show">
+            <div class="message-icon">
+                <i class="fa fa-info-circle"></i>
+                <h3>¡INFO!</h3>
+                <i class="fa fa-info-circle"></i>
+            </div>
+            <div class="message-text">
+                
+                <p>'.$text.'</p>
+            </div>
+            </div>';
+        }
+        
         header('Location: '.$location);
         exit();
     }
