@@ -1,15 +1,17 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" type="text/css" href="styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css%22%3E
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/700997539d.js" crossorigin="anonymous"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js%22%3E</script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./utilities.js"></script>
     <title>Calculadora de Gasolina</title>
 </head>
