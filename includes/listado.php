@@ -29,7 +29,7 @@
     }
 ?>
 <div class="gasolineras" id="gasolineras">
-        <h1>Lista de gasolineras</h1>
+        <h1 class="titulosBody">Lista de gasolineras</h1>
 
         <div class="filtros">
             <form method="GET">

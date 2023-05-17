@@ -648,7 +648,7 @@ button.ghost {
 	padding: 20px;
 }
 
-.gasolineras h1 {
+.titulosBody {
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin-bottom: 25px;
@@ -1577,3 +1577,71 @@ footer {
     color: #888;
     font-size: 14px;
   }
+
+  /* Consejos de ahorro */
+
+#bodyConsejos {
+	background: linear-gradient(to right, #0B3D91, #add8e6);
+	color: #add8e6;
+}
+
+.contenedoresConsejos {
+    position: relative;
+    height: 75%;
+    width: 80%;
+    top: 18%;
+    padding: 50px;
+    font-size: 14px;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255,0.4);
+    color: #000;
+    margin: 50px auto;
+}
+
+.contenedoresConsejos hr {
+    border: none;
+    border-top: 3px solid rgba(255, 238, 0, 0.5);
+    margin: 20px 0;
+}
+
+.contenedoresConsejos .content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.contenedoresConsejos .content p {
+    margin-bottom: 10px;
+}
+
+.contenedoresConsejos .text {
+    flex: 1;
+    margin-right: 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.contenedoresConsejos .image {
+    max-width: 100%;
+    width: 400px; /* Ajusta el tamaño de la imagen según sea necesario */
+    margin-left: auto; 
+    margin-bottom: 50px;
+}
+
+.contenedoresConsejos .h2-right {
+    text-align: right;
+}
+
+.contenedoresConsejos .text-right {
+    flex: 1;
+    margin-left: 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.contenedoresConsejos .image-right {
+    max-width: 100%;
+    width: 400px; /* Ajusta el tamaño de la imagen según sea necesario */
+    margin-right: auto; 
+    margin-bottom: 50px;
+}

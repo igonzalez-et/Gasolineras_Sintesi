@@ -6,7 +6,7 @@
                 <li><a href="../">Inicio</a></li>
                 <li><a href="../listado_gasolinera.php">Buscador de gasolineras</a></li>
                 <li><a href="../calculadora.php">Calculadora de precios</a></li>
-                <li><a href="#">Consejos para ahorrar</a></li>
+                <li><a href="../consejos.php">Consejos para ahorrar</a></li>
                 <li><a href="../usuarios.php">Buscar Usuarios</a></li>
                 <?php
                     include("utilidades.php");
