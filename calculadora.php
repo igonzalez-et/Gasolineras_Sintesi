@@ -17,7 +17,7 @@
     <?php 
         include("./includes/header.php");
     ?>
-    <h1>Calculadora de Gasolina</h1>
+    <h1 class="titulosBody">Calculadora de Gasolina</h1>
     <form>
         <label for="precio-gasolina">Precio de la Gasolina:</label>
         <input type="number" id="precio-gasolina" name="precio-gasolina"><br>

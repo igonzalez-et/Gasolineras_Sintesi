@@ -159,7 +159,7 @@
                                                 else {
                                                     $mostrarMensaje = "<p class='user-name'><img src='./perfiles/foto/default.png' alt='Foto de perfil de usuario'> ";
                                                 }
-                                                $mostrarMensaje .= $row2["nombre"] . " - " ;
+                                                $mostrarMensaje .= "<a class='enlaceUsuario' href='../perfil.php?usuario=".$row2['nombre']."'>" . $row2["nombre"] . "</a> - " ;
                                             }
                                         }
         

@@ -1,5 +1,5 @@
 <div class="contenedorBuscadorUsuario">
-        <h1>Buscar usuarios</h1>
+        <h1 class="titulosBody">Buscar usuarios</h1>
         <form id="buscadorUsuario">
             <input type="text" name="nombre" placeholder="Nombre">
             <button type="submit">Buscar</button>
