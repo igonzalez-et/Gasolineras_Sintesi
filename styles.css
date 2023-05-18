@@ -557,6 +557,7 @@ button.ghost {
     border-radius: 30px;
     background-color: rgba(255, 255, 255,0.4);
     color: #000;
+    overflow: auto;
 }
     
 .tarjeta.tarjeta-left {
@@ -600,7 +601,7 @@ button.ghost {
 .tarjeta .text {
     flex: 1;
     margin-right: 20px;
-    font-size: 1rem;
+    font-size: 14px;
     line-height: 1.5;
 }
 
@@ -1620,7 +1621,7 @@ footer {
 .contenedoresConsejos .text {
     flex: 1;
     margin-right: 20px;
-    font-size: 1rem;
+    font-size: 14px;
     line-height: 1.5;
 }
 

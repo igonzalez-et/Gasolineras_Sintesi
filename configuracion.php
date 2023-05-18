@@ -46,6 +46,29 @@
 
             // Validar los datos del formulario
             $errores = array();
+
+            $sqlQuery2 = "SELECT count(*) as contador, id FROM usuarios WHERE nombre='".$nuevo_nombre."';";
+            $result2 = mysqli_query($conn, $sqlQuery2);
+
+            if (mysqli_num_rows($result2) > 0) {
+                $row2 = mysqli_fetch_array($result2);
+                if($row2['contador'] != 0 && $row2['id'] != $usuario_id) {
+                    $errores[] = "El nombre de usuario ya esta en uso.";
+                    showMessage('warning', 'El nombre de usuario ya esta en uso.', './configuracion.php');
+                }
+            }
+
+            $sqlQuery3 = "SELECT count(*) as contador, id FROM usuarios WHERE correo='".$nuevo_correo."';";
+            $result3 = mysqli_query($conn, $sqlQuery3);
+
+            if (mysqli_num_rows($result3) > 0) {
+                $row3 = mysqli_fetch_array($result3);
+                if($row3['contador'] != 0 && $row3['id'] != $usuario_id) {
+                    $errores[] = "El correo electrónico ya lo tiene en uso una cuenta existente.";
+                    showMessage('warning', 'El correo electrónico ya lo tiene en uso una cuenta existente.', './configuracion.php');
+                }
+            }
+
             if (empty($nuevo_nombre)) {
                 $errores[] = "El nombre es requerido.";
                 showMessage('warning', 'El nombre es requerido.', './configuracion.php');
